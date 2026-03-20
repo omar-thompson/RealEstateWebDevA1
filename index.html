@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- Adda footer -->
+<!-- Can copy this section into each page-->
 <head>
     <meta charset="UTF-8">
     <!-- I think i place my style link in here to link to my style.css file??-->
@@ -33,8 +34,6 @@
                     <!-- Nav links -->
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bookmarks.html">Favourites</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                     </ul>
 
@@ -48,48 +47,154 @@
             </div>
         </nav>
     </header>
-
+    
+    <!-- Login/signup infront of a nice image -->
     <div class="hero-image">
         <div class="hero-text">
             <h1 style="font-size: 50px">NESTMATE</h1>
-            <p>Something</p>
+            <p>Welcome! Find new homes and create long lasting friendships</p>
             <button>Login/Signup</button>
         </div>
     </div>
 
-    <div class="container px-4 py-5" id="categories-to-fill">
-        <h2 class="pb-2 border-bottom">Categories?</h2>
+
+        <!-- These are the potential housemates -->
+        <h2 class="pb-2 border-bottom">Nesters</h2>
+
+        <!-- Place filtering here -->
+        <input type="radio" name="filter" id="all" checked hidden>
+        <input type="radio" name="filter" id="pets" hidden>
+        <input type="radio" name="filter" id="no-pets" hidden>
+
+        <input type="radio" name="filter" id="low" hidden>
+        <input type="radio" name="filter" id="mid" hidden>
+        <input type="radio" name="filter" id="high" hidden>
+
+        <input type="radio" name="filter" id="social" hidden>
+        <input type="radio" name="filter" id="not-social" hidden>
+
+        <div class="container px-4 py-5" id="categories-to-fill">
+
+        <div class="container mb-4">
+            <h4>Filter by:</h4>
+            <label for="all" class="btn btn-outline-primary">All</label>
+            <label for="pets" class="btn btn-outline-primary">Pets Allowed</label>
+            <label for="no-pets" class="btn btn-outline-primary">No Pets</label>
+
+            <label for="low" class="btn btn-outline-primary">Low $250 - $350</label>
+            <label for="mid" class="btn btn-outline-primary">Mid $351 - $450</label>
+            <label for="high" class="btn btn-outline-primary">High $450+</label>
+
+            <label for="social" class="btn btn-outline-primary">Social</label>
+            <label for="not-social" class="btn btn-outline-primary">Not Social</label>
+        </div>
 
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-            <div class="col">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('#');">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Something</h2>
-                    </div>
-                </div>
-            </div>
+            <!-- Start my public listings here -->
 
-            <div class="col">
+            <div class="col no-pets social low">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('#');">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Something
-                        </h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('#');">
+                    style="background-image: url('../img/house1.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Something</h2>
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Ipswich City - $350p/w</h2>
+                        <p>Looking for a quiet room mate, 4 bedrooms, far from transport</p>
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Pets Not Allowed</span>
+                            <span class="badge bg-info">Social</span>
+                            <span class="badge bg-warning text-dark">Low Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col pets low social">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                    style="background-image: url('../img/apartment.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Brisbane CBD - $250p/w</h2>
+                        <p>Looking for a social housemate, 2 bedroom, close to transport</p>
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Pets Allowed</span>
+                            <span class="badge bg-info">Social</span>
+                            <span class="badge bg-warning text-dark">Low Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col high social">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                    style="background-image: url('../img/House2.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Logan Central $500p/w </h2>
+                        <p>I am a loud housemate, and outgoing, looking for someone to match, 3 bedroom 2 bath</p>
+                        <div class="mt-auto">
+                            <span class="badge bg-info">Social</span>
+                            <span class="badge bg-warning text-dark">High Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col not-pets not-social mid">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                    style="background-image: url('../img/House3.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Toowoomba City - $375p/w </h2>
+                        <p>Large home, close to transport, have a lion, 6 bedrooms 3 bathrooms, live with my partner</p>
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Pets Allowed</span>
+                            <span class="badge bg-info">Not Social</span>
+                            <span class="badge bg-warning text-dark">Med Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col pets not-social high">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                    style="background-image: url('../img/cat_lover.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Burleigh Heads $600p/w </h2>
+                        <p>I have 10 cats, homebody with a 2 bedroom apartment</p>
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Pets Allowed</span>
+                            <span class="badge bg-info">Not Social</span>
+                            <span class="badge bg-warning text-dark">High Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col not-pets not-social mid">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                    style="background-image: url('../img/grannyflathome.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Redcliffe City $400p/w </h2>
+                        <p>Granny flat, 1 bedroom 1 bathroom, seperate from the house. Long term flatmate needed </p>
+                        <div class="mt-auto">
+                            <span class="badge bg-success">Pets Not Allowed</span>
+                            <span class="badge bg-info">Not Social</span>
+                            <span class="badge bg-warning text-dark">Med Budget</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Need to add a footer in here, is it too basic? -->
+    <footer>
+        <div class="footer">
+            <div class="row">
+                <ul>
+                    <li>Author: Omar Thompson</li>
+                    <li>Student Number: n12811424</li>
+                    <li><a href="">Email: omar.thompson@connect.qut.edu.au</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

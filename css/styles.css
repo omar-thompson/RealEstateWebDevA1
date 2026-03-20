@@ -3,7 +3,7 @@
 #2f80ed, #2d9ee0 );
 }
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/pexels-helenalopes-708440.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/Sharemates.jpg");
   height: 60vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -35,4 +35,33 @@
 .hero-text button:hover {
   background-color: #555;
   color: white;
+}
+
+.card.card-cover {
+  height: 250px; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+#all:checked ~ #categories-to-fill .col {
+    display: block; 
+}
+#pets:checked ~ #categories-to-fill .col:not(.pets),
+#no-pets:checked ~ #categories-to-fill .col:not(.no-pets) {
+  display: none;
+}
+#low:checked ~ #categories-to-fill .col:not(.low),
+#mid:checked ~ #categories-to-fill .col:not(.mid),
+#high:checked ~ #categories-to-fill .col:not(.high) {
+  display: none;
+}
+#social:checked ~ #categories-to-fill .col:not(.social),
+#not-social:checked ~ #categories-to-fill .col:not(.not-social){
+  display: none;
+}
+#categories-to-fill .col {
+    transition: all 0.3s ease;
 }
