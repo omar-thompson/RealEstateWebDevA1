@@ -2,6 +2,7 @@
 <html lang="en">
 <!-- Listings is for the poster of the thing, only see if you are logged in design accoringly-->
 <!-- Can copy this section into each page-->
+
 <head>
     <meta charset="UTF-8">
     <!-- I think i place my style link in here to link to my style.css file??-->
@@ -17,38 +18,38 @@
 
     <!-- Constant Navbar across all sites -->
     <nav class="navbar navbar-expand-md navbar-dark Color-tone">
-            <div class="container-fluid">
+        <div class="container-fluid">
 
-                <!-- Name of the company -->
-                <a class="navbar-brand" href="index.html">NestMates</a>
+            <!-- Name of the company -->
+            <a class="navbar-brand" href="index.html">NestMates</a>
 
-                <!-- Hamburger Menu -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <!-- Hamburger Menu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <!-- Collapsible content -->
-                <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
 
-                    <!-- Nav links -->
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bookmarks.html">Favourites</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    </ul>
+                <!-- Nav links -->
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bookmarks.html">Favourites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
 
-                    <!-- Search button -->
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search">
-                        <button class="btn btn-outline-light me-2" type="submit">Search</button>
-                    </form>
+                <!-- Search button -->
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-light me-2" type="submit">Search</button>
+                </form>
 
-                </div>
             </div>
+        </div>
     </nav>
-    
+
     <!-- Main section-->
     <div class="d-flex justify-content-between align-items-center mb-3 mt-4 px-4">
         <!-- Left side -->
@@ -56,76 +57,78 @@
 
         <!-- Right side -->
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-primary btn-sm">Upload Photos</button>
-            
-            <!-- Bookmark with number, got this from the Bootstrap picture library, figure an imaginary number works -->
-            <div class="d-flex align-items-center gap-1">
+            <!-- Bookmark with number, got this from the Bootstrap picture library, figure an imaginary number works, lets put notifications in here too -->
+            <div class="btn btn-outline-secondary d-flex align-items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
-                    <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                    <!--This si the path deets for the Bookmark icon-->
+                    <path
+                        d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
                 </svg>
                 <span>Bookmarked: 5</span>
             </div>
+            <div class="btn btn-outline-secondary d-flex align-items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell"
+                    viewBox="0 0 16 16">
+                    <!--This si the path deets for the notification bell-->
+                    <path
+                        d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
+                </svg>
+                <span>Notifications: 10</span>
+            </div>
         </div>
     </div>
-    
+
     <!--Show my property, only need the one -->
     <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
-
         <div class="carousel-inner">
-            
             <div class="carousel-item active">
-            <img src="img/ALR.jpg" class="d-block w-100" alt="Living room">
+                <img src="img/ALR.jpg" class="d-block w-100" alt="Living room">
             </div>
 
             <div class="carousel-item">
-            <img src="img/ABR.jpg" class="d-block w-100" alt="Bedroom">
+                <img src="img/ABR.jpg" class="d-block w-100" alt="Bedroom">
             </div>
 
             <div class="carousel-item">
-            <img src="img/AK.jpg" class="d-block w-100" alt="Kitchen">
+                <img src="img/AK.jpg" class="d-block w-100" alt="Kitchen">
             </div>
-
         </div>
 
         <!-- Lefty righty buttons -->
         <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
-
         <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
-
     </div>
 
     <!-- This where i put fields that can be edited -->
     <div class="container mt-4">
-        <div class="row g-2">
-
+        <div class="row">
+        <button class="btn btn-outline-secondary btn-sm">Upload Photos</button>
             <!-- Left column: property details -->
             <div class="col-md-6 d-flex flex-column justify-content-between p-3">
-                <h2 class="mb-3">Annerley, Brisbane</h2>
-                <p class="text-muted mb-2">Private room with a balcony</p>
+                <h2 class="mb-3">Annerley, Brisbane <button class="btn btn-outline-secondary btn-sm">Edit</button></h2>
+                
+                <p class="text-muted mb-2">127 Annerley Rd, Anerley, 4300</p>
                 <p>Quiet apartment block. Walking distance to the train station. Fully furnished, bills included.</p>
             </div>
-
-            <!-- Right column: small gallery + stats -->
             <div class="col-md-5 mt-4">
-
                 <!-- put the small stuff in like bedroom bathroooms and rent  -->
                 <div class="d-flex justify-content-between text-center">
                     <div>
-                    <strong>2</strong>
-                    <p class="mt-0">Bedrooms</p>
+                        <strong>2</strong>
+                        <p class="mt-0">Bedrooms</p>
                     </div>
                     <div>
-                    <strong>1</strong>
-                    <p class="mt-0">Bathrooms</p>
+                        <strong>1</strong>
+                        <p class="mt-0">Bathrooms</p>
                     </div>
                     <div>
-                    <strong>$450</strong>
-                    <p class="mt-0">Weekly Rent</p>
+                        <strong>$450</strong>
+                        <p class="mt-0">Weekly Rent</p>
                     </div>
                 </div>
             </div>
@@ -138,21 +141,59 @@
 
         <h3>
             Property Features
+            <button class="btn btn-outline-secondary btn-sm">Edit </button>
         </h3>
-        <div class="">
-
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li>Private Room</li>
+                    <li>Personal Balcony
+                    <li>Fully furnished</li>
+                    <li>Air conditioning</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li>Internet included</li>
+                    <li>Weekly cleaning</li>
+                    <li>Bills included</li>
+                    <li>No pets allowed</li>
+                </ul>
+            </div>
         </div>
-
     </div>
-
-
-
     
+    <footer class="bg-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>    
+                <!-- Left: Branding -->
+                <div class="col-md-6">
+                    <h5>NestMates</h5>
+                    <p class="text-muted mb-0">Find your perfect housemate.</p>
+                </div>
+
+                <!-- Right: Contact -->
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-1">Author: Omar Thompson</p>
+                    <a href="mailto:omar.thompson@connect.qut.edu.au">
+                        omar.thompson@connect.qut.edu.au
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bottom line -->
+            <div class="text-center mt-3 text-muted small">
+                2026 NestMates
+            </div>
+        </div>
+    </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        </script>
+
+
 </body>
-
 
 </html>
