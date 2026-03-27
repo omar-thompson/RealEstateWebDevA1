@@ -59,6 +59,10 @@
 #not-social:checked ~ #categories-to-fill .col:not(.not-social){
   display: none;
 }
+#person:checked ~ #categories-to-fill .col:not(.person),
+#house:checked ~ #categories-to-fill .col:not(.house){
+  display: none;
+}
 #categories-to-fill .col {
     transition: all 0.3s ease;
 }
