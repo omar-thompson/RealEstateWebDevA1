@@ -1,0 +1,88 @@
+/* This is for my heroes section for my Homepage  */
+.Color-tone {
+    background: linear-gradient(90deg,  #091e3a, 
+#2f80ed, #2d9ee0 );
+}
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/Sharemates.jpg");
+  height: 60vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  
+}
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+.hero-text button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+.hero-text button:hover {
+  background-color: #555;
+  color: white;
+}
+.card.card-cover {
+  height: 250px; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* This is for my filters section, filterin gin css  */
+
+#all:checked ~ #categories-to-fill .col {
+    display: block; 
+}
+#pets:checked ~ #categories-to-fill .col:not(.pets),
+#no-pets:checked ~ #categories-to-fill .col:not(.no-pets) {
+  display: none;
+}
+#low:checked ~ #categories-to-fill .col:not(.low),
+#mid:checked ~ #categories-to-fill .col:not(.mid),
+#high:checked ~ #categories-to-fill .col:not(.high) {
+  display: none;
+}
+#social:checked ~ #categories-to-fill .col:not(.social),
+#not-social:checked ~ #categories-to-fill .col:not(.not-social){
+  display: none;
+}
+#person:checked ~ #categories-to-fill .col:not(.person),
+#house:checked ~ #categories-to-fill .col:not(.house){
+  display: none;
+}
+#categories-to-fill .col {
+    transition: all 0.3s ease;
+}
+
+/* This is for my listings carousel, to make sure it doesnt jitter while sliding  */
+#propertyCarousel .carousel-item {
+  height: 400px;
+}
+#propertyCarousel .carousel-item img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/*This section is for my cards in my favourites section*/
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+.card {
+  height: 100%;
+}

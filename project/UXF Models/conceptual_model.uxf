@@ -1,0 +1,124 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>99</x><y>405</y><w>261</w><h>261</h></coordinates><panel_attributes>User
+--
+userId: int
+fullName: string
+email: string
+phoneNumber: string
+password: sting
+description: string
+role: string
+--
+register()
+login()
+viewListing()
+editListing()
+createEnquiry()
+addFavourite()
+removeFavourite()
+writeReview()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>972</x><y>405</y><w>261</w><h>261</h></coordinates><panel_attributes>Property
+--
+propertyId: int
+userID: int
+address: string
+suburb: string
+socialLifestyle: boolean
+petFriendly: boolean
+--
+getDetails()
+updateProperty()
+getReviews()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>639</x><y>126</y><w>189</w><h>144</h></coordinates><panel_attributes>Favourite
+--
+favouriteID: int
+listingId: int
+dateSaved: Date
+--
+save()
+remove()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>801</y><w>243</w><h>153</h></coordinates><panel_attributes>Enquiry
+--
+enquiryID: int
+userID: int
+listingId: int
+message: String
+dateCreated: Date
+status: String
+--
+submitEnquiry()
+updateStatus()
+closeEnquiry()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>981</y><w>243</w><h>153</h></coordinates><panel_attributes>Review
+--
+reviewID: int
+userID: int
+propertyId: int
+rating: int
+comment: String
+dateCreated: Date
+--
+submitReview()
+editReview()
+deleteReview()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>621</x><y>432</y><w>216</w><h>162</h></coordinates><panel_attributes>Listing
+--
+listingID: int
+userID: int
+propertyId: int
+title: String
+description: String
+price: decimal
+--
+getDetails()
+updateDetails()
+attachDoc()
+deleteDoc()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>765</x><y>765</y><w>243</w><h>144</h></coordinates><panel_attributes>Document
+--
+docId: int
+listingID:int 
+docType: string
+uploadDate: datetime
+fileURL: string
+--
+openDoc()
+closeDoc()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>333</x><y>126</y><w>189</w><h>144</h></coordinates><panel_attributes>Favourites List
+--
+favouriteListId: int
+userID: int
+createdDate: datetime
+--
+addFavourite()
+removeFavourite()
+getAllFavourites()
+clearFavourites()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>351</x><y>495</y><w>288</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Creates/Manages</panel_attributes><additional_attributes>10;20;300;20</additional_attributes></element><element><id>Relation</id><coordinates><x>261</x><y>657</y><w>99</w><h>243</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Submits</panel_attributes><additional_attributes>10;10;10;240;90;240</additional_attributes></element><element><id>Relation</id><coordinates><x>189</x><y>657</y><w>171</w><h>441</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Writes</panel_attributes><additional_attributes>10;10;10;460;170;460</additional_attributes></element><element><id>Relation</id><coordinates><x>216</x><y>189</y><w>135</w><h>234</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+Belongs</panel_attributes><additional_attributes>10;240;10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>585</y><w>108</w><h>198</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*
+can have </panel_attributes><additional_attributes>10;10;10;110;80;110;80;200</additional_attributes></element><element><id>Relation</id><coordinates><x>513</x><y>180</y><w>144</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*
+Contains</panel_attributes><additional_attributes>10;20;140;20</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>261</y><w>54</w><h>189</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+Refers</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>828</x><y>495</y><w>162</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+Represents</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>Relation</id><coordinates><x>576</x><y>585</y><w>171</w><h>315</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Recieves</panel_attributes><additional_attributes>120;10;120;320;10;320</additional_attributes></element><element><id>Relation</id><coordinates><x>576</x><y>657</y><w>540</w><h>441</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Is About</panel_attributes><additional_attributes>570;10;570;460;10;460</additional_attributes></element><element><id>Relation</id><coordinates><x>135</x><y>18</y><w>999</w><h>405</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+owns/rents &gt;</panel_attributes><additional_attributes>10;430;10;20;1070;20;1070;430</additional_attributes></element></diagram>

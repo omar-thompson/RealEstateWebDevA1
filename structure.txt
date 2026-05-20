@@ -1,0 +1,28 @@
+.
+├── bookmarks.html
+├── conceptual_model.uxf
+├── css
+│   └── styles.css
+├── data_model.uxf
+├── img
+│   ├── ABR.jpg
+│   ├── AK.jpg
+│   ├── ALR.jpg
+│   ├── apartment.jpg
+│   ├── Carpenter.jpg
+│   ├── Carpenter2.jpg
+│   ├── cat_lover.jpg
+│   ├── grannyflathome.jpg
+│   ├── House1.jpg
+│   ├── House2.jpg
+│   ├── House3.jpg
+│   ├── Sharemates.jpg
+│   └── unistudent.jpg
+├── index.html
+├── listing.html
+├── person_details.html
+├── property_details.html
+├── README.md
+└── structure.txt
+
+3 directories, 23 files
