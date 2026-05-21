@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- I think i place my style link in here to link to my style.css file??-->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -33,7 +33,7 @@
 
                     <!-- Nav links -->
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{{ url_for('home') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
                     </ul>
 
@@ -102,7 +102,7 @@
 
             <div class="col no-pets social low house">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/house1.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/House1.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Ipswich City - $350p/w</h2>
                         <p>Looking for a quiet room mate, 4 bedrooms, far from transport</p>
@@ -118,7 +118,7 @@
 
             <div class="col pets low social house">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/apartment.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/apartment.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Brisbane CBD - $250p/w</h2>
                         <p>Looking for a social housemate, 2 bedrooms available, close to transport</p>
@@ -134,7 +134,7 @@
 
             <div class="col high social person">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/unistudent.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/unistudent.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Logan Central $500p/w </h2>
                         <p>Uni student looking for something close to Logan, private room with a bathroom</p>
@@ -147,9 +147,9 @@
                 </div>
             </div>
 
-            <div class="col not-pets not-social mid house">
+            <div class="col no-pets not-social mid house">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/House3.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/House3.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Toowoomba City - $375p/w </h2>
                         <p>Large home, close to transport, have a lion, 6 bedrooms 3 bathrooms, live with my partner</p>
@@ -165,7 +165,7 @@
 
             <div class="col pets not-social high person">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/cat_lover.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/cat_lover.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Burleigh Heads $600p/w </h2>
                         <p>I have 10 cats, looking for a new place around burleigh heads, clean and tidy</p>
@@ -179,9 +179,9 @@
                 </div>
             </div>
 
-            <div class="col not-pets not-social mid house">
+            <div class="col no-pets not-social mid house">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                    style="background-image: url('../img/grannyflathome.jpg');">
+                    style="background-image: url('{{ url_for('static', filename='img/grannyflathome.jpg') }}');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Redcliffe City $400p/w </h2>
                         <p>Granny flat, 1 bedroom 1 bathroom, seperate from the house. Fully Furnished </p>
