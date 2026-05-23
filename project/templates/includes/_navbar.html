@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md navbar-dark Color-tone">
+    <div class="container-fluid">
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            NestMates
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
+                       href="{{ url_for('home') }}">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#">
+                        About Us
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Search -->
+            <form class="d-flex" method="GET" action="#">
+                <input class="form-control me-2"
+                       type="search"
+                       name="q"
+                       placeholder="Search">
+
+                <button class="btn btn-outline-light me-2"
+                        type="submit">
+                    Search
+                </button>
+            </form>
+
+        </div>
+    </div>
+</nav>
