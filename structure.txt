@@ -1,28 +1,66 @@
 .
-├── bookmarks.html
-├── conceptual_model.uxf
-├── css
-│   └── styles.css
-├── data_model.uxf
-├── img
-│   ├── ABR.jpg
-│   ├── AK.jpg
-│   ├── ALR.jpg
-│   ├── apartment.jpg
-│   ├── Carpenter.jpg
-│   ├── Carpenter2.jpg
-│   ├── cat_lover.jpg
-│   ├── grannyflathome.jpg
-│   ├── House1.jpg
-│   ├── House2.jpg
-│   ├── House3.jpg
-│   ├── Sharemates.jpg
-│   └── unistudent.jpg
-├── index.html
-├── listing.html
-├── person_details.html
-├── property_details.html
+├── project
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   └── views.cpython-313.pyc
+│   ├── database.sql
+│   ├── forms.py
+│   ├── models.py
+│   ├── static
+│   │   ├── css
+│   │   │   └── styles.css
+│   │   ├── img
+│   │   │   ├── ABR.jpg
+│   │   │   ├── AK.jpg
+│   │   │   ├── ALR.jpg
+│   │   │   ├── apartment.jpg
+│   │   │   ├── Carpenter.jpg
+│   │   │   ├── Carpenter2.jpg
+│   │   │   ├── cat_lover.jpg
+│   │   │   ├── grannyflathome.jpg
+│   │   │   ├── House1.jpg
+│   │   │   ├── House2.jpg
+│   │   │   ├── House3.jpg
+│   │   │   ├── Sharemates.jpg
+│   │   │   └── unistudent.jpg
+│   │   └── uploads
+│   ├── templates
+│   │   ├── base.html
+│   │   ├── bookmarks.html
+│   │   ├── home.html
+│   │   ├── includes
+│   │   │   ├── _footer.html
+│   │   │   └── _navbar.html
+│   │   ├── listing.html
+│   │   ├── person_details.html
+│   │   └── property_details.html
+│   ├── UXF Models
+│   │   ├── conceptual_model.uxf
+│   │   └── data_model.uxf
+│   └── views.py
 ├── README.md
-└── structure.txt
+├── requirements.txt
+├── run.py
+├── structure.txt
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── Activate.ps1
+    │   ├── flask
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.13
+    │   ├── python -> python3.13
+    │   ├── python3 -> python3.13
+    │   └── python3.13 -> /opt/homebrew/opt/python@3.13/bin/python3.13
+    ├── include
+    │   └── python3.13
+    ├── lib
+    │   └── python3.13
+    │       └── site-packages
+    └── pyvenv.cfg
 
-3 directories, 23 files
+17 directories, 47 files
