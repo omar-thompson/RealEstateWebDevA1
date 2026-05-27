@@ -7,13 +7,13 @@ CREATE TABLE users (
     prefers_pets boolean default FALSE,
     prefers_social_lifestyle boolean default FALSE,
     description TEXT,    
-    role ENUM('admin', 'seller', 'buyer') NOT NULL DEFAULT 'buyer',    
+    role ENUM('admin', 'sharer', 'seeker') NOT NULL DEFAULT 'seeker',    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE properties (
     property_id INT AUTO_INCREMENT PRIMARY KEY,
-    owner_id INT NOT NULL,    
+    sharer_id INT NOT NULL,    
     address VARCHAR(255) NOT NULL,
     suburb VARCHAR(100),
     state VARCHAR(100),    
@@ -24,38 +24,37 @@ CREATE TABLE properties (
     property_type ENUM('house', 'apartment', 'unit', 'granny_flat') DEFAULT 'house',   
     image_url VARCHAR(255),    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
-    FOREIGN KEY (owner_id) REFERENCES users(user_id)
+    FOREIGN KEY (sharer_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE listings (
-    listing_id INT AUTO_INCREMENT PRIMARY KEY,    
-    property_id INT NOT NULL,    
-    title VARCHAR(150) NOT NULL,    
-    description TEXT,    
-    weekly_price DECIMAL(10,2) NOT NULL,    
-    availability_status ENUM('available', 'pending', 'rented') DEFAULT 'available',    
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
+    listing_id INT AUTO_INCREMENT PRIMARY KEY,
+    property_id INT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    weekly_price DECIMAL(10,2) NOT NULL,
+    bills_included BOOLEAN DEFAULT FALSE,
+    available_rooms INT DEFAULT 1,
+    preferred_gender ENUM('male','female','any') DEFAULT 'any',
+    availability_status ENUM('available', 'pending', 'occupied') DEFAULT 'available',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (property_id) REFERENCES properties(property_id)
 );
 
-CREATE TABLE favourites (
+CREATE TABLE saved_listings (
     favourite_id INT AUTO_INCREMENT PRIMARY KEY,    
     user_id INT NOT NULL,
     listing_id INT NOT NULL,    
-    date_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+    date_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE enquiries (
-    enquiry_id INT AUTO_INCREMENT PRIMARY KEY,    
-    user_id INT NOT NULL,
+CREATE TABLE messages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,    
+    sender_id INT NOT NULL,
     listing_id INT NOT NULL,    
     message TEXT NOT NULL,    
     status ENUM('new', 'responded', 'closed') DEFAULT 'new',    
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
 );
 
 CREATE TABLE reviews (
@@ -78,15 +77,13 @@ CREATE TABLE documents (
     FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
 );
 
-CREATE TABLE offers (
-    offer_id INT AUTO_INCREMENT PRIMARY KEY,    
-    user_id INT NOT NULL,
+CREATE TABLE applications (
+    application_id INT AUTO_INCREMENT PRIMARY KEY,    
+    seeker_id INT NOT NULL,
     listing_id INT NOT NULL,    
-    offer_amount DECIMAL(10,2) NOT NULL,    
+    introduction_message TEXT,   
     status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',    
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO users
@@ -94,13 +91,13 @@ INSERT INTO users
 VALUES
 ('Admin One', 'admin@test.com', '0400000001', 'hashed_password', 'System admin', 'admin'),
 ('Admin Two', 'admin2@test.com', '0400000001', 'hashed_password', 'System admin', 'admin'),
-('Homer Simpson', 'seller1@test.com', '0400000002', 'hashed_password', 'Property owner in Brisbane', 'seller'),
-('Marge Simpson', 'seller2@test.com', '0400000003', 'hashed_password', 'Looking for reliable tenants', 'seller'),
-('Lisa Simpson', 'buyer1@test.com', '0400000004', 'hashed_password', 'University student', 'buyer'),
-('Bart Simpson', 'buyer2@test.com', '0400000005', 'hashed_password', 'Young professional', 'buyer');
+('Homer Simpson', 'seller1@test.com', '0400000002', 'hashed_password', 'Property owner in Brisbane', 'sharer'),
+('Marge Simpson', 'seller2@test.com', '0400000003', 'hashed_password', 'Looking for reliable tenants', 'sharer'),
+('Lisa Simpson', 'buyer1@test.com', '0400000004', 'hashed_password', 'University student', 'seeker'),
+('Bart Simpson', 'buyer2@test.com', '0400000005', 'hashed_password', 'Young professional', 'seeker');
 
 INSERT INTO properties
-(owner_id, address, suburb, state, bedrooms, bathrooms, pet_friendly, lifestyle_type, property_type, image_url)
+(sharer_id, address, suburb, state, bedrooms, bathrooms, pet_friendly, lifestyle_type, property_type, image_url)
 VALUES
 
 -- Apartments
@@ -147,8 +144,9 @@ VALUES
 (14, 'Caboolture Granny Flat', 'Private living space', 300.00, 'available'),
 (15, 'North Lakes Granny Flat', 'Quiet self-contained flat', 320.00, 'available');
 
-INSERT INTO offers (user_id, listing_id, offer_amount, status, created_at)
+INSERT INTO applications 
+(seeker_id, listing_id, introduction_message, status, created_at)
 VALUES
-(6, 1, 520.00, 'pending', NOW()),
-(5, 6, 750.00, 'accepted', NOW()),
-(6, 8, 680.00, 'rejected', NOW());
+(6, 1, 'Interested in joining', 'pending', NOW()),
+(5, 6, 'Would love to move in', 'accepted', NOW()),
+(6, 8, 'Is this still available?', 'rejected', NOW());
