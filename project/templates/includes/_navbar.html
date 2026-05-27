@@ -23,16 +23,59 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
+                <!-- Home -->
                 <li class="nav-item">
                     <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
-                       href="{{ url_for('home') }}">
+                    href="{{ url_for('home') }}">
                         Home
                     </a>
                 </li>
 
+                <!-- ROLE-BASED LINKS -->
+                {% if session.get('user_id') %}
+
+                    <!-- ADMIN -->
+                    {% if session.get('role') == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                               href="#">
+                                Management
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <!-- BUYER -->
+                    {% if session.get('role') == 'buyer' %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('listing') }}">
+                                Listings
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('bookmarks') }}">
+                                Favourites
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <!-- SELLER -->
+                    {% if session.get('role') == 'seller' %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('listing') }}">
+                                My Listings
+                            </a>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
+
+                <!-- About -->
                 <li class="nav-item">
-                    <a class="nav-link"
-                       href="#">
+                    <a class="nav-link" href="#">
                         About Us
                     </a>
                 </li>
@@ -40,17 +83,51 @@
             </ul>
 
             <!-- Search -->
-            <form class="d-flex" method="GET" action="#">
+            <form class="d-flex me-3" method="GET" action="#">
                 <input class="form-control me-2"
                        type="search"
                        name="q"
                        placeholder="Search">
 
-                <button class="btn btn-outline-light me-2"
+                <button class="btn btn-outline-light"
                         type="submit">
                     Search
                 </button>
             </form>
+
+            <!-- Right side auth -->
+            <div class="d-flex align-items-center">
+
+                {% if session.get('user_id') %}
+
+                    <!-- Welcome -->
+                    <span class="text-light me-3">
+                        Welcome, {{ session.get('user_name') }}
+                    </span>
+
+                    <!-- Logout -->
+                    <a class="btn btn-outline-warning"
+                       href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <!-- Login -->
+                    <a class="btn btn-outline-light me-2"
+                       href="{{ url_for('login') }}">
+                        Login
+                    </a>
+
+                    <!-- Register -->
+                    <a class="btn btn-warning"
+                       href="{{ url_for('register') }}">
+                        Register
+                    </a>
+
+                {% endif %}
+
+            </div>
 
         </div>
     </div>
