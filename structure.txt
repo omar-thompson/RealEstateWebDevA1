@@ -1,8 +1,14 @@
 .
+├── README.md
+├── code_testing.py
 ├── project
+│   ├── UXF Models
+│   │   ├── conceptual_model.uxf
+│   │   └── data_model.uxf
 │   ├── __init__.py
 │   ├── __pycache__
 │   │   ├── __init__.cpython-313.pyc
+│   │   ├── models.cpython-313.pyc
 │   │   └── views.cpython-313.pyc
 │   ├── database.sql
 │   ├── forms.py
@@ -14,15 +20,15 @@
 │   │   │   ├── ABR.jpg
 │   │   │   ├── AK.jpg
 │   │   │   ├── ALR.jpg
-│   │   │   ├── apartment.jpg
 │   │   │   ├── Carpenter.jpg
 │   │   │   ├── Carpenter2.jpg
-│   │   │   ├── cat_lover.jpg
-│   │   │   ├── grannyflathome.jpg
 │   │   │   ├── House1.jpg
 │   │   │   ├── House2.jpg
 │   │   │   ├── House3.jpg
 │   │   │   ├── Sharemates.jpg
+│   │   │   ├── apartment.jpg
+│   │   │   ├── cat_lover.jpg
+│   │   │   ├── grannyflathome.jpg
 │   │   │   └── unistudent.jpg
 │   │   └── uploads
 │   ├── templates
@@ -33,22 +39,20 @@
 │   │   │   ├── _footer.html
 │   │   │   └── _navbar.html
 │   │   ├── listing.html
+│   │   ├── login.html
 │   │   ├── person_details.html
-│   │   └── property_details.html
-│   ├── UXF Models
-│   │   ├── conceptual_model.uxf
-│   │   └── data_model.uxf
+│   │   ├── property_details.html
+│   │   └── register.html
 │   └── views.py
-├── README.md
 ├── requirements.txt
 ├── run.py
 ├── structure.txt
 └── venv
     ├── bin
+    │   ├── Activate.ps1
     │   ├── activate
     │   ├── activate.csh
     │   ├── activate.fish
-    │   ├── Activate.ps1
     │   ├── flask
     │   ├── pip
     │   ├── pip3
@@ -63,4 +67,4 @@
     │       └── site-packages
     └── pyvenv.cfg
 
-17 directories, 47 files
+17 directories, 51 files
