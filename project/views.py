@@ -371,6 +371,96 @@ def test_db():
     except Exception as e:
         return f"Connection failed: {str(e)}"
     
+@app.route('/property/<int:property_id>/edit', methods=['GET', 'POST'])
+def edit_property(property_id):
+
+    cur = mysql.connection.cursor()
+
+    # Load the property by property_id (NOT sharer_id)
+    cur.execute("""
+        SELECT 
+            p.property_id,
+            p.address,
+            p.suburb,
+            p.state,
+            p.bedrooms,
+            p.bathrooms,
+            p.pet_friendly,
+            p.lifestyle_type,
+            p.property_type,
+            p.image_url,
+            p.sharer_id
+        FROM properties p
+        WHERE p.property_id = %s
+    """, (property_id,))
+
+    row = cur.fetchone()
+
+    if not row:
+        cur.close()
+        return "Property not found", 404
+
+    columns = [col[0] for col in cur.description]
+    property_data = dict(zip(columns, row))
+
+    # 🔒 Ownership check
+    if property_data['sharer_id'] != session['user_id']:
+        cur.close()
+        return "Unauthorized", 403
+
+    # =========================
+    # HANDLE FORM SUBMISSION
+    # =========================
+    if request.method == 'POST':
+
+        address = request.form['address']
+        suburb = request.form['suburb']
+        state = request.form['state']
+        bedrooms = request.form['bedrooms']
+        bathrooms = request.form['bathrooms']
+
+        # checkbox fix
+        pet_friendly = 1 if request.form.get('pet_friendly') == 'on' else 0
+
+        lifestyle_type = request.form['lifestyle_type']
+        property_type = request.form['property_type']
+        image_url = request.form['image_url']
+
+        cur.execute("""
+            UPDATE properties
+            SET address = %s,
+                suburb = %s,
+                state = %s,
+                bedrooms = %s,
+                bathrooms = %s,
+                pet_friendly = %s,
+                lifestyle_type = %s,
+                property_type = %s,
+                image_url = %s
+            WHERE property_id = %s
+        """, (
+            address,
+            suburb,
+            state,
+            bedrooms,
+            bathrooms,
+            pet_friendly,
+            lifestyle_type,
+            property_type,
+            image_url,
+            property_id
+        ))
+
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Property updated successfully")
+        return redirect(url_for('my_properties'))
+
+    cur.close()
+
+    return render_template("edit_property.html", property=property_data)
+    
 
 ## This section handles user registration, login, and logout functionality. It uses password hashing for security and manages user sessions.
 @app.route('/register', methods=['GET', 'POST'])
