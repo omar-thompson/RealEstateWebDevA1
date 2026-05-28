@@ -86,3 +86,18 @@
 .card {
   height: 100%;
 }
+
+/* This is for my property details page, to make sure the image is the right size and doesnt stretch  */
+.property-image-wrapper {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.property-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
