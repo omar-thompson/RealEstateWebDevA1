@@ -1,35 +1,83 @@
 # The Views module defines the routes and view functions for the Flask application. Each route corresponds to a specific URL endpoint and renders the appropriate HTML template. The test_db route is included to verify the database connection.
 
 from flask import render_template, request, redirect, url_for, session, flash
+from flask_login import current_user
+from flask_wtf import form
 from werkzeug.security import generate_password_hash, check_password_hash
 from project import app, mysql
+from project.forms import EnquiryForm, PropertyFilterForm
 
 
-# Home Page route - renders the home.html template
+## This section defines the main route for the home page, which displays property listings. It constructs a dynamic SQL query based on the filters provided by the user through the PropertyFilterForm. The results are fetched from the database and passed to the home.html template for rendering.
 @app.route('/')
 def home():
-    cur = mysql.connection.cursor()
-    cur.execute("""
-    SELECT
-        l.listing_id,
-        l.title,
-        l.description,
-        l.weekly_price,
-        l.availability_status,
-        p.suburb,
-        p.image_url
-    FROM listings l
-    JOIN properties p ON l.property_id = p.property_id
-    LIMIT 6
-""")
-    columns = [col[0] for col in cur.description]
+    form = PropertyFilterForm(request.args)
 
-    listings = [
-        dict(zip(columns, row))
-        for row in cur.fetchall()
-    ]
+    cur = mysql.connection.cursor()
+
+    query = """
+        SELECT
+            l.listing_id,
+            l.title,
+            l.description,
+            l.weekly_price,
+            l.bills_included,
+            l.available_rooms,
+            l.preferred_gender,
+            p.suburb,
+            p.image_url,
+            p.bedrooms,
+            p.bathrooms,
+            p.pet_friendly,
+            p.lifestyle_type
+        FROM listings l
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE 1=1
+    """
+
+    params = []
+
+    # This is for my filtering functionality on the home page. It checks if each filter field has a value and appends the appropriate SQL condition to the query, along with the corresponding parameter value.
+    if form.min_price.data:
+        query += " AND l.weekly_price >= %s"
+        params.append(form.min_price.data)
+
+    if form.max_price.data:
+        query += " AND l.weekly_price <= %s"
+        params.append(form.max_price.data)
+
+    if form.bedrooms.data:
+        query += " AND p.bedrooms >= %s"
+        params.append(form.bedrooms.data)
+
+    if form.bathrooms.data:
+        query += " AND p.bathrooms >= %s"
+        params.append(form.bathrooms.data)
+
+    if form.pet.data in ['0', '1']:
+        query += " AND p.pet_friendly = %s"
+        params.append(int(form.pet.data))
+
+    if form.gender.data:
+        query += " AND l.preferred_gender = %s"
+        params.append(form.gender.data)
+
+    if form.lifestyle.data:
+        query += " AND p.lifestyle_type = %s"
+        params.append(form.lifestyle.data)
+
+    if form.bills.data in ['0', '1']:
+        query += " AND l.bills_included = %s"
+        params.append(int(form.bills.data))
+
+    cur.execute(query, tuple(params))
+
+    columns = [col[0] for col in cur.description]
+    listings = [dict(zip(columns, row)) for row in cur.fetchall()]
+
     cur.close()
-    return render_template("home.html", listings=listings)
+
+    return render_template("home.html", listings=listings, form=form)
 
 @app.route('/bookmarks')
 def bookmarks():
@@ -39,13 +87,128 @@ def bookmarks():
 def listing():
     return render_template("listing.html")
 
-@app.route('/person_details')
-def person_details():
-    return render_template("person_details.html")
+## This route displays the properties that the currently logged-in user has. It checks if the user is authenticated, retrieves the properties from the database where the sharer_id matches the user's ID, and renders the my_properties.html template with the retrieved data.
+@app.route('/my-properties')
+def my_properties():
 
-@app.route('/property_details')
-def property_details():
-    return render_template("property_details.html") 
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT *
+        FROM properties
+        WHERE sharer_id = %s
+    """, (session['user_id'],))
+
+    columns = [col[0] for col in cur.description]
+    properties = [dict(zip(columns, row)) for row in cur.fetchall()]
+    cur.close()
+
+    return render_template("my_properties.html", properties=properties)
+
+@app.route('/property/create', methods=['GET', 'POST'])
+def create_property():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        address = request.form['address']
+        suburb = request.form['suburb']
+        state = request.form['state']
+        bedrooms = request.form['bedrooms']
+        bathrooms = request.form['bathrooms']
+
+        pet_friendly = 1 if request.form.get('pet_friendly') else 0
+
+        lifestyle_type = request.form['lifestyle_type']
+        property_type = request.form['property_type']
+        image_url = request.form['image_url']
+
+        cur = mysql.connection.cursor()
+
+        cur.execute("""
+            INSERT INTO properties
+            (address, suburb, state, bedrooms, bathrooms, pet_friendly, lifestyle_type, property_type, image_url, sharer_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (
+            address,
+            suburb,
+            state,
+            bedrooms,
+            bathrooms,
+            pet_friendly,
+            lifestyle_type,
+            property_type,
+            image_url,
+            session['user_id']
+        ))
+
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Property created successfully")
+        return redirect(url_for('my_properties'))
+
+    return render_template("create_property.html")
+
+## This route handles the property details page. It retrieves the listing and associated property information from the database based on the listing_id provided in the URL. If the listing is found, it renders the property_details.html template with the listing data and an enquiry form. If the form is submitted, it inserts a new enquiry into the database.
+@app.route('/property/<int:listing_id>')
+def property_details(listing_id):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT
+            l.listing_id,
+            l.title,
+            l.description,
+            l.weekly_price,
+            l.bills_included,
+            l.available_rooms,
+            l.preferred_gender,
+            l.availability_status,
+            p.address,
+            p.suburb,
+            p.state,
+            p.bedrooms,
+            p.bathrooms,
+            p.pet_friendly,
+            p.lifestyle_type,
+            p.property_type,
+            p.image_url
+            
+        FROM listings l
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE l.listing_id = %s 
+    """, (listing_id,))
+
+    row = cur.fetchone()
+
+    if not row:
+        return "Listing not found", 404
+    
+    columns = [col[0] for col in cur.description]
+    listing = dict(zip(columns, row))
+
+    cur.close()
+
+    form = EnquiryForm()
+
+    if form.validate_on_submit():
+        cur = mysql.connection.cursor()
+        cur.execute(""" 
+            INSERT INTO enquiries (user_id, listing_id, message, status) 
+            VALUES (%s, %s, %s, %s) 
+        """, (
+        session.get('user_id'),
+        listing_id,
+        form.message.data
+        ))
+        mysql.connection.commit()
+        cur.close()
+        flash("Enquiry sent successfully")
+
+    return render_template("property_details.html", listing=listing, form=form)
 
 @app.route('/test-db')
 def test_db():
@@ -65,6 +228,7 @@ def register():
         full_name = request.form['full_name']
         email = request.form['email']
         password = request.form['password']
+        role = request.form['role']
 
         hashed_password = generate_password_hash(password)
 
@@ -73,7 +237,7 @@ def register():
         cur.execute("""
             INSERT INTO users (full_name, email, password_hash, role)
             VALUES (%s, %s, %s, %s)
-        """, (full_name, email, hashed_password, 'seeker'))
+        """, (full_name, email, hashed_password, role))
 
         mysql.connection.commit()
         cur.close()
