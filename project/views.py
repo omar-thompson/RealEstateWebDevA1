@@ -32,7 +32,7 @@ def home():
             p.lifestyle_type
         FROM listings l
         JOIN properties p ON l.property_id = p.property_id
-        WHERE 1=1
+        WHERE l.availability_status = 'available'
     """
 
     params = []
