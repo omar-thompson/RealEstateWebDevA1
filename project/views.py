@@ -280,6 +280,30 @@ def edit_listing(listing_id):
 
     return render_template("edit_listing.html", listing=listing)
 
+@app.route('/property/<int:property_id>/delete')
+def delete_property(property_id):
+
+    cur = mysql.connection.cursor()
+
+    # delete listing first
+    cur.execute("""
+        DELETE FROM listings
+        WHERE property_id = %s
+    """, (property_id,))
+
+    # then delete property
+    cur.execute("""
+        DELETE FROM properties
+        WHERE property_id = %s
+    """, (property_id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    flash("Property deleted successfully")
+
+    return redirect(url_for('my_properties'))
+
 ## This route handles the property details page. It retrieves the listing and associated property information from the database based on the listing_id provided in the URL. If the listing is found, it renders the property_details.html template with the listing data and an enquiry form. If the form is submitted, it inserts a new enquiry into the database.
 @app.route('/property/<int:listing_id>')
 def property_details(listing_id):
