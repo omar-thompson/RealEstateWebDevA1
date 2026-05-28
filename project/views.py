@@ -88,22 +88,31 @@ def listing():
     return render_template("listing.html")
 
 ## This route displays the properties that the currently logged-in user has. It checks if the user is authenticated, retrieves the properties from the database where the sharer_id matches the user's ID, and renders the my_properties.html template with the retrieved data.
-@app.route('/my-properties')
+@app.route('/my_properties')
 def my_properties():
-
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
 
     cur = mysql.connection.cursor()
 
     cur.execute("""
-        SELECT *
-        FROM properties
-        WHERE sharer_id = %s
+        SELECT 
+            p.property_id,
+            p.address,
+            p.suburb,
+            p.state,
+            p.bedrooms,
+            p.bathrooms,
+            l.listing_id,
+            l.availability_status,
+            l.weekly_price,
+            l.title
+        FROM properties p
+        LEFT JOIN listings l ON p.property_id = l.property_id
+        WHERE p.sharer_id = %s
     """, (session['user_id'],))
 
     columns = [col[0] for col in cur.description]
     properties = [dict(zip(columns, row)) for row in cur.fetchall()]
+
     cur.close()
 
     return render_template("my_properties.html", properties=properties)
@@ -119,20 +128,23 @@ def create_property():
         state = request.form['state']
         bedrooms = request.form['bedrooms']
         bathrooms = request.form['bathrooms']
-
-        pet_friendly = 1 if request.form.get('pet_friendly') else 0
-
+        pet_friendly = request.form.get('pet_friendly') == 'on'
         lifestyle_type = request.form['lifestyle_type']
         property_type = request.form['property_type']
         image_url = request.form['image_url']
 
         cur = mysql.connection.cursor()
 
+        # 1. Create property
         cur.execute("""
-            INSERT INTO properties
-            (address, suburb, state, bedrooms, bathrooms, pet_friendly, lifestyle_type, property_type, image_url, sharer_id)
+            INSERT INTO properties (
+                sharer_id, address, suburb, state,
+                bedrooms, bathrooms, pet_friendly,
+                lifestyle_type, property_type, image_url
+            )
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
+            session['user_id'],
             address,
             suburb,
             state,
@@ -141,17 +153,132 @@ def create_property():
             pet_friendly,
             lifestyle_type,
             property_type,
-            image_url,
-            session['user_id']
+            image_url
+        ))
+
+        property_id = cur.lastrowid
+
+        # 2. Auto-create listing (PLACEHOLDERS)
+        cur.execute("""
+            INSERT INTO listings (
+                property_id,
+                title,
+                description,
+                weekly_price,
+                bills_included,
+                available_rooms,
+                preferred_gender,
+                availability_status
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """, (
+            property_id,
+            "New Listing",
+            "No description yet",
+            0,
+            False,
+            1,
+            "any",
+            "pending"
         ))
 
         mysql.connection.commit()
         cur.close()
 
-        flash("Property created successfully")
+        flash("Property and listing created successfully")
         return redirect(url_for('my_properties'))
 
     return render_template("create_property.html")
+
+
+@app.route('/property/<int:property_id>/publish')
+def publish(property_id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE listings
+        SET availability_status = 'available'
+        WHERE property_id = %s
+    """, (property_id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('my_properties'))
+
+@app.route('/property/<int:property_id>/unpublish')
+def unpublish(property_id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE listings
+        SET availability_status = 'pending'
+        WHERE property_id = %s
+    """, (property_id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('my_properties'))
+
+@app.route('/listing/<int:listing_id>/edit', methods=['GET', 'POST'])
+def edit_listing(listing_id):
+
+    cur = mysql.connection.cursor()
+
+    # GET existing listing
+    cur.execute("""
+        SELECT *
+        FROM listings
+        WHERE listing_id = %s
+    """, (listing_id,))
+
+    row = cur.fetchone()
+
+    if not row:
+        return "Listing not found", 404
+
+    columns = [col[0] for col in cur.description]
+    listing = dict(zip(columns, row))
+
+    if request.method == 'POST':
+
+        title = request.form['title']
+        description = request.form['description']
+        weekly_price = request.form['weekly_price']
+        bills_included = request.form.get('bills_included') == 'on'
+        available_rooms = request.form['available_rooms']
+        preferred_gender = request.form['preferred_gender']
+
+        cur.execute("""
+            UPDATE listings
+            SET title = %s,
+                description = %s,
+                weekly_price = %s,
+                bills_included = %s,
+                available_rooms = %s,
+                preferred_gender = %s
+            WHERE listing_id = %s
+        """, (
+            title,
+            description,
+            weekly_price,
+            bills_included,
+            available_rooms,
+            preferred_gender,
+            listing_id
+        ))
+
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect(url_for('my_properties'))
+
+    cur.close()
+
+    return render_template("edit_listing.html", listing=listing)
 
 ## This route handles the property details page. It retrieves the listing and associated property information from the database based on the listing_id provided in the URL. If the listing is found, it renders the property_details.html template with the listing data and an enquiry form. If the form is submitted, it inserts a new enquiry into the database.
 @app.route('/property/<int:listing_id>')
