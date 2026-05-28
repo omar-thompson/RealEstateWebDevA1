@@ -33,23 +33,34 @@
         <strong>Price:</strong> ${{ property.weekly_price }}
     </p>
 
-    <a href="/property/{{ property.property_id }}" class="btn btn-sm btn-primary">
-        View Property
-    </a>
-
-    <a href="/listing/{{ property.listing_id }}/edit" class="btn btn-sm btn-secondary">
-        Edit Property
-    </a>
+    {% if property.availability_status == 'available' %}
+        <a href="/property/{{ property.listing_id }}" class="btn btn-sm btn-primary">
+            View Property
+        </a>
+    {% else %}
+        <button class="btn btn-sm btn-secondary" disabled>
+            Not Published
+        </button>
+    {% endif %}
 
     {% if property.availability_status == 'available' %}
         <a href="/property/{{ property.property_id }}/unpublish" class="btn btn-sm btn-danger">
-            Unpublish
+            Unpublish Listing
         </a>
     {% else %}
         <a href="/property/{{ property.property_id }}/publish" class="btn btn-sm btn-success">
-            Publish
+            Publish Listing
         </a>
     {% endif %}
+
+    <a href="/listing/{{ property.listing_id }}/edit" class="btn btn-sm btn-secondary">
+        Edit Listing
+    </a>
+
+    <a href="/property/{{ property.property_id }}/delete"
+    class="btn btn-sm btn-danger">
+        Delete Property
+    </a>
 
 </div>
 {% endfor %}
