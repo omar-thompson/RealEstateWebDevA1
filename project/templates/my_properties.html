@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Properties{% endblock %}
+
+{% block content %}
+
+<h2>My Properties</h2>
+
+<a href="/property/create" class="btn btn-primary">
+    + Create Property
+</a>
+
+<hr>
+
+{% for property in properties %}
+    <div class="card p-3 mt-3">
+
+        <h5>{{ property.address }}</h5>
+
+        <p>
+            {{ property.suburb }} | {{ property.state }}
+        </p>
+
+        <p>
+            {{ property.bedrooms }} bed • {{ property.bathrooms }} bath
+        </p>
+
+        <a href="/property/{{ property.property_id }}">
+            View
+        </a>
+
+        <a href="/property/{{ property.property_id }}/edit">
+            Edit
+        </a>
+
+    </div>
+{% endfor %}
+
+{% endblock %}
