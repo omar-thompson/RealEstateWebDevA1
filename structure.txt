@@ -8,6 +8,7 @@
 │   ├── __init__.py
 │   ├── __pycache__
 │   │   ├── __init__.cpython-313.pyc
+│   │   ├── forms.cpython-313.pyc
 │   │   ├── models.cpython-313.pyc
 │   │   └── views.cpython-313.pyc
 │   ├── database.sql
@@ -34,13 +35,14 @@
 │   ├── templates
 │   │   ├── base.html
 │   │   ├── bookmarks.html
+│   │   ├── create_property.html
 │   │   ├── home.html
 │   │   ├── includes
 │   │   │   ├── _footer.html
 │   │   │   └── _navbar.html
 │   │   ├── listing.html
 │   │   ├── login.html
-│   │   ├── person_details.html
+│   │   ├── my_properties.html
 │   │   ├── property_details.html
 │   │   └── register.html
 │   └── views.py
@@ -67,4 +69,4 @@
     │       └── site-packages
     └── pyvenv.cfg
 
-17 directories, 51 files
+17 directories, 53 files
