@@ -2,21 +2,77 @@
 
 {% block content %}
 
-    <form method="POST">
+<div class="form-container">
+    <div class="form-card">
 
-        <input name="address" placeholder="Address" required>
-        <input name="suburb" placeholder="Suburb">
-        <input name="state" placeholder="State">
+        <h2 class="form-title">Create Property</h2>
 
-        <input name="bedrooms" type="number" placeholder="Bedrooms">
-        <input name="bathrooms" type="number" placeholder="Bathrooms">
-        <input name="pet_friendly" type="checkbox" placeholder="Pet Friendly">
-        <input name="lifestyle_type" placeholder="Lifestyle Type">
-        <input name="property_type" placeholder="Property Type">
-        <input name="image_url" placeholder="Image URL">
+        <form method="POST">
 
-        <button type="submit">Create Property</button>
+            <div class="form-group">
+                <label>Address</label>
+                <input name="address" placeholder="Address" required>
+            </div>
 
-    </form>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Suburb</label>
+                    <input name="suburb" placeholder="Suburb">
+                </div>
+
+                <div class="form-group">
+                    <label>State</label>
+                    <input name="state" placeholder="State">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Bedrooms</label>
+                    <input name="bedrooms" type="number" placeholder="Bedrooms">
+                </div>
+
+                <div class="form-group">
+                    <label>Bathrooms</label>
+                    <input name="bathrooms" type="number" placeholder="Bathrooms">
+                </div>
+            </div>
+
+            <div class="form-group form-checkbox">
+                <input type="checkbox" name="pet_friendly">
+                <span>Pet Friendly</span>
+            </div>
+
+            <div class="form-group">
+                <label>Lifestyle Type</label>
+                <select name="lifestyle_type">
+                    <option value="">Select lifestyle</option>
+                    <option value="quiet">Quiet</option>
+                    <option value="social">Social</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Property Type</label>
+                <select name="property_type">
+                    <option value="">Select property type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="unit">Unit</option>
+                    <option value="granny_flat">Granny Flat</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Image URL</label>
+                <input name="image_url" placeholder="File Name">
+            </div>
+
+            <button type="submit" class="form-btn">Create Property</button>
+
+        </form>
+
+    </div>
+</div>
 
 {% endblock %}

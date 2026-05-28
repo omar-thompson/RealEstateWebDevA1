@@ -4,65 +4,100 @@
 
 {% block content %}
 
-<h2>My Properties</h2>
+<div class="form-container">
 
-<a href="/property/create" class="btn btn-primary">
-    + Create Property
-</a>
+    <div class="form-card">
 
-<hr>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 class="form-title" style="margin:0;">My Properties</h2>
 
-{% for property in properties %}
-<div class="card p-3 mt-3">
+            <a href="/property/create" class="form-btn" style="width:auto; text-decoration:none;">
+                + Create Property
+            </a>
+        </div>
 
-    <h5>{{ property.address }}</h5>
+        {% for property in properties %}
 
-    <p>
-        {{ property.suburb }} | {{ property.state }}
-    </p>
+        <div style="
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        ">
 
-    <p>
-        {{ property.bedrooms }} bed • {{ property.bathrooms }} bath
-    </p>
+            <!-- Header -->
+            <h3 style="margin:0 0 5px 0;">
+                {{ property.address }}
+            </h3>
 
-    <p>
-        <strong>Status:</strong> {{ property.availability_status }}
-    </p>
+            <p style="margin:0; color:#666;">
+                {{ property.suburb }} | {{ property.state }}
+            </p>
 
-    <p>
-        <strong>Price:</strong> ${{ property.weekly_price }}
-    </p>
+            <p style="margin:8px 0;">
+                {{ property.bedrooms }} bed • {{ property.bathrooms }} bath
+            </p>
 
-    {% if property.availability_status == 'available' %}
-        <a href="/property/{{ property.listing_id }}" class="btn btn-sm btn-primary">
-            View Property
-        </a>
-    {% else %}
-        <button class="btn btn-sm btn-secondary" disabled>
-            Not Published
-        </button>
-    {% endif %}
+            <p style="margin:8px 0;">
+                <strong>Status:</strong>
+                {{ property.availability_status }}
+            </p>
 
-    {% if property.availability_status == 'available' %}
-        <a href="/property/{{ property.property_id }}/unpublish" class="btn btn-sm btn-danger">
-            Unpublish Listing
-        </a>
-    {% else %}
-        <a href="/property/{{ property.property_id }}/publish" class="btn btn-sm btn-success">
-            Publish Listing
-        </a>
-    {% endif %}
+            <p style="margin:8px 0;">
+                <strong>Price:</strong> ${{ property.weekly_price }}
+            </p>
 
-    <a href="/listing/{{ property.listing_id }}/edit" class="btn btn-sm btn-secondary">
-        Edit Listing
-    </a>
+            <!-- Actions -->
+            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
 
-    <a href="/property/{{ property.property_id }}/delete"
-    class="btn btn-sm btn-danger">
-        Delete Property
-    </a>
+                {% if property.availability_status == 'available' %}
+                    <a href="/property/{{ property.listing_id }}"
+                       class="form-btn"
+                       style="width:auto; text-decoration:none; background:#2563eb;">
+                        View
+                    </a>
+
+                    <a href="/property/{{ property.property_id }}/unpublish"
+                       class="form-btn"
+                       style="width:auto; text-decoration:none; background:#dc2626;">
+                        Unpublish
+                    </a>
+                {% else %}
+                    <a href="/property/{{ property.property_id }}/publish"
+                       class="form-btn"
+                       style="width:auto; text-decoration:none; background:#16a34a;">
+                        Publish
+                    </a>
+                {% endif %}
+
+                <a href="/listing/{{ property.listing_id }}/edit"
+                   class="form-btn"
+                   style="width:auto; text-decoration:none; background:#6b7280;">
+                    Edit Listing
+                </a>
+
+                <a href="/property/{{ property.property_id }}/edit"
+                   class="form-btn"
+                   style="width:auto; text-decoration:none; background:#6b7280;">
+                    Edit Property
+                </a>
+
+                <a href="/property/{{ property.property_id }}/delete"
+                   class="form-btn"
+                   style="width:auto; text-decoration:none; background:#111827;"
+                   onclick="return confirm('Are you sure you want to delete this property?');">
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
 
 </div>
-{% endfor %}
 
 {% endblock %}
