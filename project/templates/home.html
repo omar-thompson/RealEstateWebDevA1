@@ -2,73 +2,91 @@
 {% block title %}Home - NestMates{% endblock %}
 
 {% block content %}
-    
-    <!-- Login/signup infront of a nice image -->
-    <div class="hero-image">
-        <div class="hero-text">
-            <h1 style="font-size: 50px">NESTMATE</h1>
-            <p>Welcome! Find new homes and create long lasting friendships</p>
-        </div>
+
+<!-- Hero image -->
+<div class="hero-image">
+    <div class="hero-text">
+        <h1 style="font-size: 50px">NESTMATE</h1>
+        <p>Welcome! Find new homes and create long lasting friendships</p>
+    </div>
+</div>
+
+
+<!-- These are the potential housemates/profiles -->
+<h2 class="pb-2 border-bottom px-4 mt-4">
+    Nesters
+</h2>
+
+<!-- Place filtering here -->
+<form method="GET" class="row g-3 mb-4">
+
+    {{ form.hidden_tag() }}
+
+    <div class="col-md-6">
+        {{ form.min_price.label }} {{ form.min_price(class="form-control") }}
     </div>
 
+    <div class="col-md-6">
+        {{ form.max_price.label }} {{ form.max_price(class="form-control") }}
+    </div>
 
-        <!-- These are the potential housemates/profiles -->
-    <h2 class="pb-2 border-bottom px-4 mt-4">
-        Nesters
-    </h2>
+    <div class="col-md-3">
+        {{ form.bedrooms.label }} {{ form.bedrooms(class="form-select") }}
+    </div>
 
-        <!-- Place filtering here -->
-    <input type="radio" name="filter" id="all" checked hidden>
-    <input type="radio" name="filter" id="pets" hidden>
-    <input type="radio" name="filter" id="no-pets" hidden>
+    <div class="col-md-3">
+        {{ form.bathrooms.label }} {{ form.bathrooms(class="form-select") }}
+    </div>
 
-    <input type="radio" name="filter" id="low" hidden>
-    <input type="radio" name="filter" id="mid" hidden>
-    <input type="radio" name="filter" id="high" hidden>
+    <div class="col-md-3">
+        {{ form.pet.label }} {{ form.pet(class="form-select") }}
+    </div>
 
-    <input type="radio" name="filter" id="social" hidden>
-    <input type="radio" name="filter" id="not-social" hidden>
+    <div class="col-md-3">
+        {{ form.gender.label }} {{ form.gender(class="form-select") }}
+    </div>
 
-    <input type="radio" name="filter" id="person" hidden>
-    <input type="radio" name="filter" id="house" hidden>
+    <div class="col-md-3">
+        {{ form.lifestyle.label }} {{ form.lifestyle(class="form-select") }}
+    </div>
 
-    <div class="container px-4 py-5" id="categories-to-fill">
+    <div class="col-md-3">
+        {{ form.bills.label }} {{ form.bills(class="form-select") }}
+    </div>
 
-        <div class="container mb-4">
-            <h4>Filter by:</h4>
-            <label for="all" class="btn btn-outline-primary">All</label>
-            <label for="pets" class="btn btn-outline-primary">Pets Allowed</label>
-            <label for="no-pets" class="btn btn-outline-primary">No Pets</label>
+    <div class="col-12 d-flex gap-2">
+        <button class="btn btn-primary flex-grow-1" type="submit">
+            Apply Filters
+        </button>
 
-            <label for="low" class="btn btn-outline-primary">Low $250 - $350</label>
-            <label for="mid" class="btn btn-outline-primary">Mid $351 - $450</label>
-            <label for="high" class="btn btn-outline-primary">High $450+</label>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+            Clear
+        </a>
+    </div>
 
-            <label for="social" class="btn btn-outline-primary">Social</label>
-            <label for="not-social" class="btn btn-outline-primary">Not Social</label>
+</form>
 
-            <label for="person" class="btn btn-outline-primary">Person</label>
-            <label for="house" class="btn btn-outline-primary">House</label>
-        </div>
-
-        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-            <!-- Start my public listings here -->
-            {% for listing in listings %}
-                <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
-                        style="background-image: url('{{ url_for('static', filename='img/' + listing.image_url) }}');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-                                {{ listing.title }} - ${{ listing.weekly_price }}p/w
-                            </h2>
-                            <p>
-                                {{ listing.description }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <!-- Start my public listings here -->
+    {% for listing in listings %}
+    <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+            style="background-image: url('{{ url_for('static', filename='img/' + listing.image_url) }}');">
+            <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
+                    {{ listing.title }} - ${{ listing.weekly_price }}p/w
+                </h2>
+                <p>
+                    {{ listing.description }}
+                </p>
+                <a href="{{ url_for('property_details', listing_id=listing.listing_id) }}" class="btn btn-light btn-sm mt-auto w-50">
+                    View Details
+                </a>
+            </div>
         </div>
     </div>
+    {% endfor %}
+</div>
+</div>
 
 {% endblock %}
