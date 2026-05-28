@@ -41,42 +41,6 @@
   background-repeat: no-repeat;
 }
 
-/* This is for my filters section, filterin gin css  */
-
-#all:checked ~ #categories-to-fill .col {
-    display: block; 
-}
-#pets:checked ~ #categories-to-fill .col:not(.pets),
-#no-pets:checked ~ #categories-to-fill .col:not(.no-pets) {
-  display: none;
-}
-#low:checked ~ #categories-to-fill .col:not(.low),
-#mid:checked ~ #categories-to-fill .col:not(.mid),
-#high:checked ~ #categories-to-fill .col:not(.high) {
-  display: none;
-}
-#social:checked ~ #categories-to-fill .col:not(.social),
-#not-social:checked ~ #categories-to-fill .col:not(.not-social){
-  display: none;
-}
-#person:checked ~ #categories-to-fill .col:not(.person),
-#house:checked ~ #categories-to-fill .col:not(.house){
-  display: none;
-}
-#categories-to-fill .col {
-    transition: all 0.3s ease;
-}
-
-/* This is for my listings carousel, to make sure it doesnt jitter while sliding  */
-#propertyCarousel .carousel-item {
-  height: 400px;
-}
-#propertyCarousel .carousel-item img{
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
 /*This section is for my cards in my favourites section*/
 
 .card-img-top {
@@ -100,4 +64,80 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.form-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.form-btn {
+    background: #2563eb;
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-btn:hover {
+    background: #1e4fd6;
 }
