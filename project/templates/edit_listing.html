@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Edit Listing</h2>
+
+<form method="POST">
+
+    <input name="title" value="{{ listing.title }}" placeholder="Title">
+
+    <textarea name="description">{{ listing.description }}</textarea>
+
+    <input name="weekly_price" type="number" step="0.01" value="{{ listing.weekly_price }}">
+
+    <label>
+        <input type="checkbox" name="bills_included" {% if listing.bills_included %}checked{% endif %}>
+        Bills are included?
+    </label>
+
+    <input name="available_rooms" type="number" value="{{ listing.available_rooms }}">
+
+    <select name="preferred_gender">
+        <option value="any" {% if listing.preferred_gender == 'any' %}selected{% endif %}>Any</option>
+        <option value="male" {% if listing.preferred_gender == 'male' %}selected{% endif %}>Male</option>
+        <option value="female" {% if listing.preferred_gender == 'female' %}selected{% endif %}>Female</option>
+    </select>
+
+    <button type="submit">Save Changes</button>
+
+</form>
+
+{% endblock %}

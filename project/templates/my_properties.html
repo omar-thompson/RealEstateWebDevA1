@@ -13,27 +13,45 @@
 <hr>
 
 {% for property in properties %}
-    <div class="card p-3 mt-3">
+<div class="card p-3 mt-3">
 
-        <h5>{{ property.address }}</h5>
+    <h5>{{ property.address }}</h5>
 
-        <p>
-            {{ property.suburb }} | {{ property.state }}
-        </p>
+    <p>
+        {{ property.suburb }} | {{ property.state }}
+    </p>
 
-        <p>
-            {{ property.bedrooms }} bed • {{ property.bathrooms }} bath
-        </p>
+    <p>
+        {{ property.bedrooms }} bed • {{ property.bathrooms }} bath
+    </p>
 
-        <a href="/property/{{ property.property_id }}">
-            View
+    <p>
+        <strong>Status:</strong> {{ property.availability_status }}
+    </p>
+
+    <p>
+        <strong>Price:</strong> ${{ property.weekly_price }}
+    </p>
+
+    <a href="/property/{{ property.property_id }}" class="btn btn-sm btn-primary">
+        View Property
+    </a>
+
+    <a href="/listing/{{ property.listing_id }}/edit" class="btn btn-sm btn-secondary">
+        Edit Property
+    </a>
+
+    {% if property.availability_status == 'available' %}
+        <a href="/property/{{ property.property_id }}/unpublish" class="btn btn-sm btn-danger">
+            Unpublish
         </a>
-
-        <a href="/property/{{ property.property_id }}/edit">
-            Edit
+    {% else %}
+        <a href="/property/{{ property.property_id }}/publish" class="btn btn-sm btn-success">
+            Publish
         </a>
+    {% endif %}
 
-    </div>
+</div>
 {% endfor %}
 
 {% endblock %}
