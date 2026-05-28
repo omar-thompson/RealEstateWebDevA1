@@ -44,8 +44,8 @@
                         </li>
                     {% endif %}
 
-                    <!-- BUYER -->
-                    {% if session.get('role') == 'buyer' %}
+                    <!-- Seeker -->
+                    {% if session.get('role') == 'seeker' %}
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ url_for('listing') }}">
@@ -61,12 +61,12 @@
                         </li>
                     {% endif %}
 
-                    <!-- SELLER -->
-                    {% if session.get('role') == 'seller' %}
+                    <!-- Sharer -->
+                    {% if session.get('role') == 'sharer' %}
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ url_for('listing') }}">
-                                My Listings
+                               href="{{ url_for('my_properties') }}">
+                                My Properties
                             </a>
                         </li>
                     {% endif %}
