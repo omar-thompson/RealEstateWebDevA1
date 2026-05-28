@@ -29,12 +29,12 @@ pip install -r requirements.txt
 This project uses MySQL
 
 4.1 Create the database (Open mysql/workbench)
-- CREATE DATABASE realestate_db;
+CREATE DATABASE realestate_db;
 
 4.2 Import Schema 
 Option 1 
 
-- mysql -u root -p realestate_db < project/database.sql
+mysql -u root -p realestate_db < project/database.sql
 
 Option 2 (easier)
 
