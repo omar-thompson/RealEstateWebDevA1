@@ -4,165 +4,75 @@
 
 {% block content %}
 
-    <!-- The section for my favourites cards-->
-    <div class="container mt-4">
-        <h2 class="border-bottom px-4">Your Favourites</h2>
-    </div>
-    <div class="container mt-4">
-        <div class="row g-3">
+<div class="container mt-4">
+    <h2 class="border-bottom px-4">Your Favourites</h2>
+</div>
 
-            <!-- Card -->
-            <div class="col-md-4 d-flex">
-                <div class="card shadow-sm">
-                    <div class="position-relative">
-                        <img src="img/House1.jpg" class="card-img-top" alt="Property">
+<div class="container mt-4">
+    <div class="row g-3">
 
-                        <!-- Favourite button -->
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                            </svg>
+        {% if bookmarks|length == 0 %}
+            <p class="text-muted px-4">
+                You haven’t saved any listings yet.
+            </p>
+        {% endif %}
 
-                        </button>
-                    </div>
+        {% for b in bookmarks %}
 
-                    <div class="card-body">
-                        <p class="card-text">Brisbane apartment – $250/week</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam sapiente excepturi impedit autem alias at. Rerum voluptas quisquam voluptatem sapiente impedit, dolorem cupiditate libero incidunt sint hic possimus delectus nemo?</p>
+        <div class="col-md-4 d-flex">
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-sm btn-outline-primary">View</button>
-                            <small class="text-muted">2 bed 1 bath</small>
-                        </div>
+            <div class="card shadow-sm w-100">
+
+                <div class="position-relative">
+
+                    <img src="{{ url_for('static', filename='img/' + b.image_url) }}"
+                         class="card-img-top"
+                         alt="Property">
+
+                    <!-- Remove Favourite -->
+                    <a href="/property/{{ b.listing_id }}/unsave"
+                       class="btn btn-light position-absolute top-0 end-0 m-2">
+                        ♥
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="card-text">
+                        {{ b.title }} – ${{ b.weekly_price }}/week
+                    </p>
+
+                    <p class="text-muted small">
+                        {{ b.address }}, {{ b.suburb }}, {{ b.state }}
+                    </p>
+
+                    <p class="small">
+                        {{ b.bedrooms }} bed • {{ b.bathrooms }} bath
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <a href="/property/{{ b.listing_id }}"
+                           class="btn btn-sm btn-outline-primary">
+                            View
+                        </a>
+
+                        <small class="text-muted">
+                            {{ b.lifestyle_type }}
+                        </small>
+
                     </div>
 
                 </div>
+
             </div>
-            <div class="col-md-4 d-flex">
-                <div class="card shadow-sm">
-                    <div class="position-relative">
-                        <img src="img/House2.jpg" class="card-img-top" alt="Property">
 
-                        <!-- Favourite button -->
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                            </svg>
-
-                        </button>
-                    </div>
-
-                    <div class="card-body">
-                        <p class="card-text">Brisbane apartment – $250/week</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam sapiente excepturi impedit autem alias at. Rerum voluptas quisquam voluptatem sapiente impedit, dolorem cupiditate libero incidunt sint hic possimus delectus nemo?</p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-sm btn-outline-primary">View</button>
-                            <small class="text-muted">2 bed 1 bath</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-4 d-flex">
-                <div class="card shadow-sm">
-                    <div class="position-relative">
-                        <img src="img/House3.jpg" class="card-img-top" alt="Property">
-
-                        <!-- Favourite button -->
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                            </svg>
-
-                        </button>
-                    </div>
-
-                    <div class="card-body">
-                        <p class="card-text">Brisbane apartment – $250/week</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam sapiente excepturi impedit autem alias at. Rerum voluptas quisquam voluptatem sapiente impedit, dolorem cupiditate libero incidunt sint hic possimus delectus nemo?</p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-sm btn-outline-primary">View</button>
-                            <small class="text-muted">2 bed 1 bath</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-4 d-flex">
-                <div class="card shadow-sm">
-                    <div class="position-relative">
-                        <img src="img/apartment.jpg" class="card-img-top" alt="Property">
-
-                        <!-- Favourite button -->
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                            </svg>
-
-                        </button>
-                    </div>
-
-                    <div class="card-body">
-                        <p class="card-text">Brisbane apartment – $250/week</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam sapiente excepturi impedit autem alias at. Rerum voluptas quisquam voluptatem sapiente impedit, dolorem cupiditate libero incidunt sint hic possimus delectus nemo?</p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-sm btn-outline-primary">View</button>
-                            <small class="text-muted">2 bed 1 bath</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-4 d-flex">
-                <div class="card shadow-sm">
-                    <div class="position-relative">
-                        <img src="img/grannyflathome.jpg" class="card-img-top" alt="Property">
-
-                        <!-- Favourite button -->
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                            </svg>
-
-                        </button>
-                    </div>
-
-                    <div class="card-body">
-                        <p class="card-text">Brisbane apartment – $250/week</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam sapiente excepturi impedit autem alias at. Rerum voluptas quisquam voluptatem sapiente impedit, dolorem cupiditate libero incidunt sint hic possimus delectus nemo?</p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-sm btn-outline-primary">View</button>
-                            <small class="text-muted">2 bed 1 bath</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
         </div>
+
+        {% endfor %}
+
     </div>
+</div>
 
 {% endblock %}
