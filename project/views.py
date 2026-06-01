@@ -7,6 +7,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from project import app, mysql
 from project.forms import EnquiryForm, PropertyFilterForm
 
+## Confirms connection to the database 
+@app.route('/test-db')
+def test_db():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT DATABASE();")
+        result = cur.fetchone()
+        return f"Connected successfully: {result}"
+    except Exception as e:
+        return f"Connection failed: {str(e)}"
 
 ## This section defines the main route for the home page, which displays property listings. It constructs a dynamic SQL query based on the filters provided by the user through the PropertyFilterForm. The results are fetched from the database and passed to the home.html template for rendering.
 @app.route('/')
@@ -79,15 +89,51 @@ def home():
 
     return render_template("home.html", listings=listings, form=form)
 
+## This route renders the bookmarks page, which is a placeholder for now. It simply returns the bookmarks.html template when the user navigates to /bookmarks. It will eventually show all the favourited listings for the logged-in user, but that functionality is not implemented yet.
 @app.route('/bookmarks')
 def bookmarks():
-    return render_template("bookmarks.html")
 
-@app.route('/listing')
-def listing():
-    return render_template("listing.html")
+    # Must be logged in
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
 
-## This route displays the properties that the currently logged-in user has. It checks if the user is authenticated, retrieves the properties from the database where the sharer_id matches the user's ID, and renders the my_properties.html template with the retrieved data.
+    cur = mysql.connection.cursor()
+
+    # Get all saved listings for this user
+    cur.execute("""
+        SELECT
+            l.listing_id,
+            l.title,
+            l.description,
+            l.weekly_price,
+            l.availability_status,
+            p.address,
+            p.suburb,
+            p.state,
+            p.bedrooms,
+            p.bathrooms,
+            p.pet_friendly,
+            p.lifestyle_type,
+            p.property_type,
+            p.image_url,
+            sl.date_saved
+        FROM saved_listings sl
+        JOIN listings l ON sl.listing_id = l.listing_id
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE sl.user_id = %s
+        ORDER BY sl.date_saved DESC
+    """, (session['user_id'],))
+
+    rows = cur.fetchall()
+
+    columns = [col[0] for col in cur.description]
+    bookmarks = [dict(zip(columns, row)) for row in rows]
+
+    cur.close()
+
+    return render_template("bookmarks.html", bookmarks=bookmarks)
+
+## The following 7 routes, handle the property management pagees for sharers. 
 @app.route('/my_properties')
 def my_properties():
 
@@ -190,7 +236,6 @@ def create_property():
 
     return render_template("create_property.html")
 
-
 @app.route('/property/<int:property_id>/publish')
 def publish(property_id):
 
@@ -231,7 +276,6 @@ def edit_listing(listing_id):
     # GET existing listing
     cur.execute("""
         SELECT *
-        FROM listings
         WHERE listing_id = %s
     """, (listing_id,))
 
@@ -304,73 +348,6 @@ def delete_property(property_id):
 
     return redirect(url_for('my_properties'))
 
-## This route handles the property details page. It retrieves the listing and associated property information from the database based on the listing_id provided in the URL. If the listing is found, it renders the property_details.html template with the listing data and an enquiry form. If the form is submitted, it inserts a new enquiry into the database.
-@app.route('/property/<int:listing_id>')
-def property_details(listing_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT
-            l.listing_id,
-            l.title,
-            l.description,
-            l.weekly_price,
-            l.bills_included,
-            l.available_rooms,
-            l.preferred_gender,
-            l.availability_status,
-            p.address,
-            p.suburb,
-            p.state,
-            p.bedrooms,
-            p.bathrooms,
-            p.pet_friendly,
-            p.lifestyle_type,
-            p.property_type,
-            p.image_url
-            
-        FROM listings l
-        JOIN properties p ON l.property_id = p.property_id
-        WHERE l.listing_id = %s 
-    """, (listing_id,))
-
-    row = cur.fetchone()
-
-    if not row:
-        return "Listing not found", 404
-    
-    columns = [col[0] for col in cur.description]
-    listing = dict(zip(columns, row))
-
-    cur.close()
-
-    form = EnquiryForm()
-
-    if form.validate_on_submit():
-        cur = mysql.connection.cursor()
-        cur.execute(""" 
-            INSERT INTO enquiries (user_id, listing_id, message, status) 
-            VALUES (%s, %s, %s, %s) 
-        """, (
-        session.get('user_id'),
-        listing_id,
-        form.message.data
-        ))
-        mysql.connection.commit()
-        cur.close()
-        flash("Enquiry sent successfully")
-
-    return render_template("property_details.html", listing=listing, form=form)
-
-@app.route('/test-db')
-def test_db():
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT DATABASE();")
-        result = cur.fetchone()
-        return f"Connected successfully: {result}"
-    except Exception as e:
-        return f"Connection failed: {str(e)}"
-    
 @app.route('/property/<int:property_id>/edit', methods=['GET', 'POST'])
 def edit_property(property_id):
 
@@ -460,8 +437,122 @@ def edit_property(property_id):
     cur.close()
 
     return render_template("edit_property.html", property=property_data)
-    
 
+## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
+@app.route('/property/<int:listing_id>', methods=['GET', 'POST'])
+def property_details(listing_id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            l.listing_id,
+            l.title,
+            l.description,
+            l.weekly_price,
+            l.bills_included,
+            l.available_rooms,
+            l.preferred_gender,
+            l.availability_status,
+            p.address,
+            p.suburb,
+            p.state,
+            p.bedrooms,
+            p.bathrooms,
+            p.pet_friendly,
+            p.lifestyle_type,
+            p.property_type,
+            p.image_url
+        FROM listings l
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE l.listing_id = %s
+    """, (listing_id,))
+
+    row = cur.fetchone()
+
+    if not row:
+        cur.close()
+        return "Listing not found", 404
+
+    columns = [col[0] for col in cur.description]
+    listing = dict(zip(columns, row))
+
+    saved = False
+
+    if 'user_id' in session:
+        cur.execute("""
+            SELECT 1
+            FROM saved_listings
+            WHERE user_id = %s
+              AND listing_id = %s
+        """, (session['user_id'], listing_id))
+
+        saved = cur.fetchone() is not None
+
+
+    form = EnquiryForm()
+
+    if form.validate_on_submit():
+
+        cur.execute("""
+            INSERT INTO enquiries (user_id, listing_id, message, status)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            session.get('user_id'),
+            listing_id,
+            form.message.data,
+            'new'
+        ))
+
+        mysql.connection.commit()
+        flash("Enquiry sent successfully")
+
+    cur.close()
+
+    return render_template(
+        "property_details.html",
+        listing=listing,
+        form=form,
+        saved=saved
+    )
+
+@app.route('/property/<int:listing_id>/save')
+def save_listing(listing_id):
+
+    if 'user_id' not in session:
+        return redirect(url_for('login', next=request.url))
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        INSERT IGNORE INTO saved_listings (user_id, listing_id)
+        VALUES (%s, %s)
+    """, (session['user_id'], listing_id))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('property_details', listing_id=listing_id))
+
+@app.route('/property/<int:listing_id>/unsave')
+def unsave_listing(listing_id):
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        DELETE FROM saved_listings
+        WHERE user_id = %s AND listing_id = %s
+    """, (session['user_id'], listing_id))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(request.referrer or url_for('home'))
+
+    
 ## This section handles user registration, login, and logout functionality. It uses password hashing for security and manages user sessions.
 @app.route('/register', methods=['GET', 'POST'])
 def register():
