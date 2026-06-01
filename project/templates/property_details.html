@@ -17,8 +17,39 @@
         </div>
 
         <div class="text-end">
-            <h4 class="text-primary mb-0">${{ listing.weekly_price }} / week</h4>
-            <small class="text-muted">{{ listing.availability_status }}</small>
+
+            <h4 class="text-primary mb-0">
+                ${{ listing.weekly_price }} / week
+            </h4>
+
+            <small class="text-muted d-block">
+                {{ listing.availability_status }}
+            </small>
+
+            <!-- SAVE BUTTON -->
+            {% if session.get('user_id') and session.get('role') == 'seeker' %}
+
+                {% if saved %}
+                    <a href="/property/{{ listing.listing_id }}/unsave"
+                    class="btn btn-outline-danger btn-sm mt-2">
+                        ♥ Saved
+                    </a>
+                {% else %}
+                    <a href="/property/{{ listing.listing_id }}/save"
+                    class="btn btn-outline-primary btn-sm mt-2">
+                        ♡ Save
+                    </a>
+                {% endif %}
+
+            {% elif not session.get('user_id') %}
+
+                <a href="{{ url_for('login', next=request.url) }}"
+                class="btn btn-outline-primary btn-sm mt-2">
+                    ♡ Save
+                </a>
+
+            {% endif %}
+
         </div>
 
     </div>
@@ -26,8 +57,7 @@
     <!-- IMAGE -->
     <div class="card shadow-sm mb-4">
         <div class="property-image-wrapper">
-            <img src="{{ url_for('static', filename='img/' + listing.image_url) }}"
-                class="property-image"
+            <img src="{{ url_for('static', filename='img/' + listing.image_url) }}" class="property-image"
                 alt="Property image">
         </div>
     </div>
