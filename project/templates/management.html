@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Management - NestMates{% endblock %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Admin Management Panel</h2>
+
+    <!-- USERS SECTION -->
+    <h4>User Accounts</h4>
+
+    <div class="table-responsive mb-5">
+        <table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.user_id }}</td>
+                    <td>{{ u.full_name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.role }}</td>
+                    <td>
+
+                        <!-- Delete user -->
+                        <a href="/admin/user/{{ u.user_id }}/delete"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Delete this user?')">
+                            Delete
+                        </a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- LISTINGS SECTION -->
+    <h4>Property Listings</h4>
+
+    <div class="table-responsive">
+
+        <table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for l in listings %}
+                <tr>
+                    <td>{{ l.listing_id }}</td>
+                    <td>{{ l.title }}</td>
+                    <td>${{ l.weekly_price }}</td>
+                    <td>{{ l.availability_status }}</td>
+                    <td>
+
+                        <a href="/property/{{ l.listing_id }}"
+                           class="btn btn-sm btn-primary">
+                            View
+                        </a>
+
+                        <a href="/admin/listing/{{ l.listing_id }}/delete"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Delete this listing?')">
+                            Delete
+                        </a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

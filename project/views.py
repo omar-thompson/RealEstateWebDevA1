@@ -89,7 +89,11 @@ def home():
 
     return render_template("home.html", listings=listings, form=form)
 
-## This route renders the bookmarks page, which is a placeholder for now. It simply returns the bookmarks.html template when the user navigates to /bookmarks. It will eventually show all the favourited listings for the logged-in user, but that functionality is not implemented yet.
+@app.route('/management')
+def management():
+    return render_template("management.html")
+
+## This route renders the bookmarks page used by Seekers to view their favourite listing they have saved
 @app.route('/bookmarks')
 def bookmarks():
 
@@ -132,6 +136,7 @@ def bookmarks():
     cur.close()
 
     return render_template("bookmarks.html", bookmarks=bookmarks)
+
 
 ## The following 7 routes, handle the property management pagees for sharers. 
 @app.route('/my_properties')
@@ -438,6 +443,7 @@ def edit_property(property_id):
 
     return render_template("edit_property.html", property=property_data)
 
+
 ## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
 @app.route('/property/<int:listing_id>', methods=['GET', 'POST'])
 def property_details(listing_id):
@@ -552,7 +558,7 @@ def unsave_listing(listing_id):
 
     return redirect(request.referrer or url_for('home'))
 
-    
+
 ## This section handles user registration, login, and logout functionality. It uses password hashing for security and manages user sessions.
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -611,3 +617,48 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+## The following two sections handles errors
+@app.errorhandler(404)
+def page_not_found(request):
+    return render_template('404.html', status=404)
+
+@app.errorhandler(500)
+def internal_server_error(request):
+    return render_template('500.html', status=500)  
+
+
+## the following page is for the admin managment page. 
+@app.route('/management')
+def management():
+    if session.get('role') != 'admin':
+        return "Unauthorized", 403
+    
+    cur = mysql.connection.cursor()
+
+    #gets the users
+    cur.execute("""
+        SELECT user_id, full_name, email, role, created_at
+        FROM users
+        ORDER BY created_at DESC
+    """)
+
+    users = cur.fetchall()
+    columns = [col[0] for col in cur.description]
+    users = [dict(zip(columns, row)) for row in users]
+
+    #gets the listings
+    cur.execute("""
+        SELECT listing_id, title, weekly_price, availability_status, created_at
+        FROM listings
+        ORDER BY created_at DESC
+    """)
+
+    listings = cur.fetchall()
+    listings_columns = [col[0] for col in cur.description]
+    listings = [dict(zip(listings_columns, row)) for row in listings]
+
+    cur.close()
+
+    return render_template("management.html", users=users, listings=listings)
