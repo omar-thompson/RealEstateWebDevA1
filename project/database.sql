@@ -42,10 +42,18 @@ CREATE TABLE listings (
 );
 
 CREATE TABLE saved_listings (
-    favourite_id INT AUTO_INCREMENT PRIMARY KEY,    
+    favourite_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    listing_id INT NOT NULL,    
-    date_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    listing_id INT NOT NULL,
+    date_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (user_id, listing_id),
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id),
+
+    FOREIGN KEY (listing_id)
+        REFERENCES listings(listing_id)
 );
 
 CREATE TABLE messages (
