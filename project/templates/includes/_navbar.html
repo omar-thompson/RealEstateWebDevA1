@@ -38,7 +38,7 @@
                     {% if session.get('role') == 'admin' %}
                         <li class="nav-item">
                             <a class="nav-link" 
-                               href="#">
+                               href="{{ url_for('management') }}">
                                 Management
                             </a>
                         </li>

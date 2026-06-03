@@ -89,9 +89,6 @@ def home():
 
     return render_template("home.html", listings=listings, form=form)
 
-@app.route('/management')
-def management():
-    return render_template("management.html")
 
 ## This route renders the bookmarks page used by Seekers to view their favourite listing they have saved
 @app.route('/bookmarks')
@@ -135,7 +132,7 @@ def bookmarks():
 
     cur.close()
 
-    return render_template("bookmarks.html", bookmarks=bookmarks)
+    return render_template("seeker/bookmarks.html", bookmarks=bookmarks)
 
 
 ## The following 7 routes, handle the property management pagees for sharers. 
@@ -166,12 +163,12 @@ def my_properties():
 
     cur.close()
 
-    return render_template("my_properties.html", properties=properties)
+    return render_template("sharer/my_properties.html", properties=properties)
 
 @app.route('/property/create', methods=['GET', 'POST'])
 def create_property():
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth/login'))
 
     if request.method == 'POST':
         address = request.form['address']
@@ -239,7 +236,7 @@ def create_property():
         flash("Property and listing created successfully")
         return redirect(url_for('my_properties'))
 
-    return render_template("create_property.html")
+    return render_template("sharer/create_property.html")
 
 @app.route('/property/<int:property_id>/publish')
 def publish(property_id):
@@ -327,7 +324,7 @@ def edit_listing(listing_id):
 
     cur.close()
 
-    return render_template("edit_listing.html", listing=listing)
+    return render_template("sharer/edit_listing.html", listing=listing)
 
 @app.route('/property/<int:property_id>/delete')
 def delete_property(property_id):
@@ -441,7 +438,7 @@ def edit_property(property_id):
 
     cur.close()
 
-    return render_template("edit_property.html", property=property_data)
+    return render_template("sharer/edit_property.html", property=property_data)
 
 
 ## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
@@ -544,7 +541,7 @@ def save_listing(listing_id):
 def unsave_listing(listing_id):
 
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth/login'))
 
     cur = mysql.connection.cursor()
 
@@ -581,7 +578,7 @@ def register():
         cur.close()
 
         flash("Account created successfully")
-        return redirect(url_for('login'))
+        return redirect(url_for('auth/login'))
 
     return render_template('register.html')
 
@@ -611,7 +608,7 @@ def login():
         else:
             flash("Invalid login details")
 
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 @app.route('/logout')
 def logout():
@@ -622,11 +619,11 @@ def logout():
 ## The following two sections handles errors
 @app.errorhandler(404)
 def page_not_found(request):
-    return render_template('404.html', status=404)
+    return render_template('errors/404.html', status=404)
 
 @app.errorhandler(500)
 def internal_server_error(request):
-    return render_template('500.html', status=500)  
+    return render_template('errors/500.html', status=500)  
 
 
 ## the following page is for the admin managment page. 
@@ -661,4 +658,63 @@ def management():
 
     cur.close()
 
-    return render_template("management.html", users=users, listings=listings)
+    return render_template("admin/management.html", users=users, listings=listings)
+
+@app.route('/admin/user/create', methods=['GET', 'POST'])
+def create_user():
+
+    if session.get('role') != 'admin':
+        return "Unauthorized", 403
+
+    if request.method == 'POST':
+
+        full_name = request.form['full_name']
+        email = request.form['email']
+        password = request.form['password']
+        role = request.form['role']
+
+        hashed = generate_password_hash(password)
+
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            INSERT INTO users (full_name, email, password_hash, role)
+            VALUES (%s, %s, %s, %s)
+        """, (full_name, email, hashed, role))
+
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect(url_for('management'))
+
+    return render_template("admin/create_user.html")
+
+@app.route('/admin/user/<int:user_id>/delete')
+def delete_user(user_id):
+
+    if session.get('role') != 'admin':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+
+    # I need to delete all saved listings for this user then delete properties, then the user itself. This is to avoid foreign key constraint errors. and cascade errors.
+    cur.execute("""
+        DELETE l FROM listings l
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE p.sharer_id = %s
+    """, (user_id,))
+
+    cur.execute("""
+        DELETE FROM properties
+        WHERE sharer_id = %s
+    """, (user_id,))
+
+    cur.execute("""
+        DELETE FROM users
+        WHERE user_id = %s
+    """, (user_id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('management'))
+
