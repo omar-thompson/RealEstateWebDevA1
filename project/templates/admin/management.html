@@ -81,11 +81,21 @@
                             View
                         </a>
 
-                        <a href="/admin/listing/{{ l.listing_id }}/delete"
-                           class="btn btn-sm btn-danger"
-                           onclick="return confirm('Delete this listing?')">
-                            Delete
+                        <a href="/listing/{{ l.listing_id }}/edit" class="btn btn-sm btn-warning">
+                            Edit
                         </a>
+
+                        {% if l.availability_status == 'available' %}
+                            <a href="/admin/listing/{{ l.listing_id }}/unpublish"
+                            class="btn btn-sm btn-secondary">
+                                Unpublish
+                            </a>
+                        {% else %}
+                            <a href="/admin/listing/{{ l.listing_id }}/publish"
+                            class="btn btn-sm btn-success">
+                                Publish
+                            </a>
+                        {% endif %}
 
                     </td>
                 </tr>
