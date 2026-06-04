@@ -278,6 +278,7 @@ def edit_listing(listing_id):
     # GET existing listing
     cur.execute("""
         SELECT *
+        FROM listings
         WHERE listing_id = %s
     """, (listing_id,))
 
@@ -440,6 +441,38 @@ def edit_property(property_id):
 
     return render_template("sharer/edit_property.html", property=property_data)
 
+@app.route('/my-applications')
+def my_applications():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    if session.get('role') != 'sharer':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            a.application_id,
+            a.introduction_message,
+            a.status,
+            a.created_at,
+            l.title
+        FROM applications a
+        JOIN listings l ON a.listing_id = l.listing_id
+        JOIN properties p ON l.property_id = p.property_id
+        WHERE p.sharer_id = %s
+        ORDER BY a.created_at DESC
+    """, (session['user_id'],))
+
+    rows = cur.fetchall()
+    cols = [col[0] for col in cur.description]
+    applications = [dict(zip(cols, r)) for r in rows]
+
+    cur.close()
+
+    return render_template("sharer/my_applications.html", applications=applications)
 
 ## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
 @app.route('/property/<int:listing_id>', methods=['GET', 'POST'])
@@ -498,13 +531,13 @@ def property_details(listing_id):
     if form.validate_on_submit():
 
         cur.execute("""
-            INSERT INTO enquiries (user_id, listing_id, message, status)
+            INSERT INTO applications (seeker_id, listing_id, introduction_message, status)
             VALUES (%s, %s, %s, %s)
         """, (
             session.get('user_id'),
             listing_id,
             form.message.data,
-            'new'
+            'pending'
         ))
 
         mysql.connection.commit()
@@ -718,3 +751,36 @@ def delete_user(user_id):
 
     return redirect(url_for('management'))
 
+@app.route('/admin/listing/<int:listing_id>/publish')
+def admin_publish(listing_id):
+
+    if session.get('role') != 'admin':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        UPDATE listings
+        SET availability_status = 'available'
+        WHERE listing_id = %s
+    """, (listing_id,))
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('management'))
+
+@app.route('/admin/listing/<int:listing_id>/unpublish')
+def admin_unpublish(listing_id):
+
+    if session.get('role') != 'admin':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        UPDATE listings
+        SET availability_status = 'pending'
+        WHERE listing_id = %s
+    """, (listing_id,))
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('management'))

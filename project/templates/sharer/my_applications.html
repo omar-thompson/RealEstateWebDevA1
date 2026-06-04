@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Applications Received</h2>
+
+    {% for a in applications %}
+        <div class="card mb-3 p-3">
+
+            <h5>{{ a.title }}</h5>
+
+            <p>{{ a.introduction_message }}</p>
+
+            <span class="badge bg-secondary">
+                {{ a.status }}
+            </span>
+
+            <small class="text-muted d-block mt-2">
+                {{ a.created_at }}
+            </small>
+
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
