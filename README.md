@@ -26,21 +26,24 @@ pip install -r requirements.txt
 
 This project uses MySQL Workbench
 
-4.1 Create the database (Open mysql/workbench)
+#### 4.1 Create the database (Open mysql/workbench)
 CREATE DATABASE realestate_db;
 
-4.2 Import Schema 
-Option 1 
+#### 4.2 Import Schema 
+
+##### Option 1 
+
+Using your terminal in your IDE, ensure you are in the RealEstateWebDevA1 folder then run the following command
 
 mysql -u root -p realestate_db < project/database.sql
 
-Option 2
+##### Option 2
 
 Open MySQL Workbench
 Select your database
 Run contents of project/database.sql (as in copy and paste all of the commands in database.sql to run in workbench under the realestate_db database)
 
-4.3 Verify the tables have been made 
+#### 4.3 Verify the tables have been made 
 
 Ensure the following tables exist:
 users
