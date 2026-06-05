@@ -34,7 +34,7 @@ Option 1
 
 mysql -u root -p realestate_db < project/database.sql
 
-Option 2 (easier)
+Option 2
 
 Open MySQL Workbench
 Select your database
