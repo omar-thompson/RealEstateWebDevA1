@@ -18,15 +18,13 @@ Windows:
 python3 -m venv venv
 source venv/bin/activate
 
-
-
 ### Step 3: Install dependencies 
 
 pip install -r requirements.txt
 
 ### Step 4: Set up the database (Important)
 
-This project uses MySQL
+This project uses MySQL Workbench
 
 4.1 Create the database (Open mysql/workbench)
 CREATE DATABASE realestate_db;
@@ -40,7 +38,7 @@ Option 2 (easier)
 
 Open MySQL Workbench
 Select your database
-Run contents of project/database.sql (as in copy and paste all of the commands in database.sql)
+Run contents of project/database.sql (as in copy and paste all of the commands in database.sql to run in workbench under the realestate_db database)
 
 4.3 Verify the tables have been made 
 
@@ -70,9 +68,20 @@ python run.py
 http://127.0.0.1:5000/
 
 ### Step 8: Default test accounts
-Email: any of the test emails 
-Password: password
+#### Admin Accounts Login details 
+Email login - admin@test.com 
+Email login - admin2@test.com
+Password for both: password
 
+#### Sharer/Seller Login details 
+Email login - sharer1@test.com
+Email login - sharer2@test.com
+Password for both: password 
+
+#### Seeker/Buyer Login Details 
+Email login - buyer1@test.com
+Email login - buyer2@test.com
+Password for both: password 
 
 
 
