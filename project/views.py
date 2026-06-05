@@ -474,6 +474,61 @@ def my_applications():
 
     return render_template("sharer/my_applications.html", applications=applications)
 
+@app.route('/application/<int:application_id>/reject')
+def reject_application(application_id):
+
+    if session.get('role') != 'sharer':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE applications a
+        JOIN listings l
+            ON a.listing_id = l.listing_id
+        JOIN properties p
+            ON l.property_id = p.property_id
+        SET a.status = 'rejected'
+        WHERE a.application_id = %s
+          AND p.sharer_id = %s
+    """, (
+        application_id,
+        session['user_id']
+    ))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('my_applications'))
+
+@app.route('/application/<int:application_id>/accept')
+def accept_application(application_id):
+
+    if session.get('role') != 'sharer':
+        return "Unauthorized", 403
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE applications
+        SET status = 'accepted'
+        WHERE application_id = %s
+    """, (application_id,))
+
+    cur.execute("""
+        UPDATE listings
+        SET availability_status = 'unavailable'
+        WHERE listing_id = (
+            SELECT listing_id FROM applications WHERE application_id = %s
+        )
+    """, (application_id,))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('my_applications'))
+
+
 ## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
 @app.route('/property/<int:listing_id>', methods=['GET', 'POST'])
 def property_details(listing_id):

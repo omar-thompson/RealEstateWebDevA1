@@ -13,9 +13,39 @@
 
             <p>{{ a.introduction_message }}</p>
 
-            <span class="badge bg-secondary">
-                {{ a.status }}
-            </span>
+            {% if a.status == 'pending' %}
+                <span class="badge bg-warning text-dark">
+                    Pending
+                </span>
+            {% elif a.status == 'accepted' %}
+                <span class="badge bg-success">
+                    Accepted
+                </span>
+            {% else %}
+                <span class="badge bg-danger">
+                    Rejected
+                </span>
+            {% endif %}
+
+            {% if a.status == 'pending' %}
+
+            <div class="mt-3">
+
+                <a href="{{ url_for('accept_application',
+                                    application_id=a.application_id) }}"
+                class="btn btn-success btn-sm">
+                    Accept
+                </a>
+
+                <a href="{{ url_for('reject_application',
+                                    application_id=a.application_id) }}"
+                class="btn btn-danger btn-sm">
+                    Reject
+                </a>
+
+            </div>
+
+            {% endif %}
 
             <small class="text-muted d-block mt-2">
                 {{ a.created_at }}
