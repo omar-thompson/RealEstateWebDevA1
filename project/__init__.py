@@ -10,8 +10,8 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 # MySQL database configuration
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '6351284790Aa!'      
-app.config['MYSQL_DB'] = 'realestate_db'
+app.config['MYSQL_PASSWORD'] = '6351284790Aa!'  #! Change this section!    
+app.config['MYSQL_DB'] = 'realestate_db' #! Change this section!
 
 mysql = MySQL(app)
 

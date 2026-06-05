@@ -26,7 +26,7 @@
             background: #fafafa;
         ">
 
-            <!-- Header -->
+            <!-- Header for the property -->
             <h3 style="margin:0 0 5px 0;">
                 {{ property.address }}
             </h3>
@@ -48,7 +48,7 @@
                 <strong>Price:</strong> ${{ property.weekly_price }}
             </p>
 
-            <!-- Actions -->
+            <!-- Actions for when the property is available -->
             <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
 
                 {% if property.availability_status == 'available' %}

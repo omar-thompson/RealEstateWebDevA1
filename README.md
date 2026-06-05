@@ -15,8 +15,8 @@ source venv/bin/activate
 
 Windows:
 
-python3 -m venv venv
-source venv/bin/activate
+python -m venv venv
+source venv\Scripts\activate
 
 ### Step 3: Install dependencies 
 
@@ -54,8 +54,8 @@ Check project/__init__.py for database settings such as
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'your_password' ## This part here make sure its your password you log into your computer with 
-app.config['MYSQL_DB'] = 'real_estate_db'
+app.config['MYSQL_PASSWORD'] = 'your_password' ## Rename this to what your computer password is  
+app.config['MYSQL_DB'] = 'real_estate_db' ## Rename this to what you you name your database 
 
 
 ### Step 6: Run the application 
@@ -63,6 +63,9 @@ In your terminal run the application with the following command:
 
 python run.py
 
+
+#### NOTE!!! Please know that if you are running this for the first time it may take a while due to a cold first connection! 
+#### Just run the file and wait as the MySQL connection is cold, and the first query takes time. 
 ### Step 7: Open in browser
 
 http://127.0.0.1:5000/
@@ -85,3 +88,8 @@ Password for both: password
 
 
 
+Please note when you are fully completed with the application dont forget to deactivate the virtual environment by entering 
+
+deactivate 
+
+In your terminal (you can confirm this as "venv" would have dissappered at the beginning of your command line)

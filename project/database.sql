@@ -97,12 +97,12 @@ CREATE TABLE applications (
 INSERT INTO users
 (full_name, email, phone_number, password_hash, description, role)
 VALUES
-('Admin One', 'admin@test.com', '0400000001', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'System admin', 'admin'),
-('Admin Two', 'admin2@test.com', '0400000001', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'System admin', 'admin'),
-('Homer Simpson', 'seller1@test.com', '0400000002', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'Property owner in Brisbane', 'sharer'),
-('Marge Simpson', 'seller2@test.com', '0400000003', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'Looking for reliable tenants', 'sharer'),
-('Lisa Simpson', 'buyer1@test.com', '0400000004', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'University student', 'seeker'),
-('Bart Simpson', 'buyer2@test.com', '0400000005', 'scrypt:32768:8:1$a7hnNrXCOvDuJ5r6$5af18f1e1a2aa4980ed419210dac842f7092f30b3f2f9ad83f309184b2ceff5dde4132dc44a3cbe40edad3914bd99a4604e3138703ebe84c28a45e8c4e91c18b', 'Young professional', 'seeker');
+('Admin One', 'admin@test.com', '0400000001', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'System admin', 'admin'),
+('Admin Two', 'admin2@test.com', '0400000001', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'System admin', 'admin'),
+('Homer Simpson', 'seller1@test.com', '0400000002', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'Property owner in Brisbane', 'sharer'),
+('Marge Simpson', 'seller2@test.com', '0400000003', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'Looking for reliable tenants', 'sharer'),
+('Lisa Simpson', 'buyer1@test.com', '0400000004', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'University student', 'seeker'),
+('Bart Simpson', 'buyer2@test.com', '0400000005', 'scrypt:32768:8:1$0KzFJvp06ICOmrM7$cb643df9c92016318f45870d2731828521af20464be3d67bdf4b0ef006527ecac98938bcfd004eaa66e1efefcc91011c49b08b5a55b53030af9ff0fce63f474b', 'Young professional', 'seeker');
 
 INSERT INTO properties
 (sharer_id, address, suburb, state, bedrooms, bathrooms, pet_friendly, lifestyle_type, property_type, image_url)

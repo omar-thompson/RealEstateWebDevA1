@@ -1,4 +1,4 @@
-# The Views module defines the routes and view functions for the Flask application. Each route corresponds to a specific URL endpoint and renders the appropriate HTML template. The test_db route is included to verify the database connection.
+# The Views module defines the routes and view functions for the Flask application. Each route corresponds to a specific URL endpoint and renders the appropriate HTML template. The test_db route is included to verify the database connection. this is arguably the most important page, this is where i ensure that connections to every link go somewhere and that the correct data is being passed to the templates. This is also where i handle all the form submissions and database interactions for the application. be careful here, this is where most of the logic of the application is. Additionally if i decide to add more features, put it in a new folder i will have to ensure that the route includes the folder as well. 
 
 from flask import render_template, request, redirect, url_for, session, flash
 from flask_login import current_user
@@ -135,7 +135,7 @@ def bookmarks():
     return render_template("seeker/bookmarks.html", bookmarks=bookmarks)
 
 
-## The following 7 routes, handle the property management pagees for sharers. 
+## The following 10 routes, handle the property management pagees for sharers and some of the functions that are associated. 
 @app.route('/my_properties')
 def my_properties():
 
@@ -714,7 +714,7 @@ def internal_server_error(request):
     return render_template('errors/500.html', status=500)  
 
 
-## the following page is for the admin managment page. 
+## the following  5 pages is for the admin managment page. 
 @app.route('/management')
 def management():
     if session.get('role') != 'admin':

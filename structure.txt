@@ -33,18 +33,29 @@
 │   │   │   └── unistudent.jpg
 │   │   └── uploads
 │   ├── templates
+│   │   ├── admin
+│   │   │   ├── create_user.html
+│   │   │   └── management.html
+│   │   ├── auth
+│   │   │   ├── login.html
+│   │   │   └── register.html
 │   │   ├── base.html
-│   │   ├── bookmarks.html
-│   │   ├── create_property.html
+│   │   ├── errors
+│   │   │   ├── 404.html
+│   │   │   └── 500.html
 │   │   ├── home.html
 │   │   ├── includes
 │   │   │   ├── _footer.html
 │   │   │   └── _navbar.html
-│   │   ├── listing.html
-│   │   ├── login.html
-│   │   ├── my_properties.html
 │   │   ├── property_details.html
-│   │   └── register.html
+│   │   ├── seeker
+│   │   │   └── bookmarks.html
+│   │   └── sharer
+│   │       ├── create_property.html
+│   │       ├── edit_listing.html
+│   │       ├── edit_property.html
+│   │       ├── my_applications.html
+│   │       └── my_properties.html
 │   └── views.py
 ├── requirements.txt
 ├── run.py
@@ -55,7 +66,9 @@
     │   ├── activate
     │   ├── activate.csh
     │   ├── activate.fish
+    │   ├── email_validator
     │   ├── flask
+    │   ├── idna
     │   ├── pip
     │   ├── pip3
     │   ├── pip3.13
@@ -69,4 +82,4 @@
     │       └── site-packages
     └── pyvenv.cfg
 
-17 directories, 53 files
+22 directories, 61 files

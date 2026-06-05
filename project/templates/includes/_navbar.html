@@ -6,7 +6,7 @@
             NestMates
         </a>
 
-        <!-- Mobile toggle -->
+        <!-- Mobile toggle for when it changes from collapsed to expanded -->
         <button class="navbar-toggler" type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarContent"
@@ -31,7 +31,7 @@
                     </a>
                 </li>
 
-                <!-- ROLE-BASED LINKS -->
+                <!-- Role based links for Admin, sharer, and seeker -->
                 {% if session.get('user_id') %}
 
                     <!-- ADMIN -->
@@ -72,7 +72,7 @@
 
                 {% endif %}
 
-                <!-- About -->
+                <!-- About ( this is just a place holder from A1 and A2) -->
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         About Us

@@ -2,7 +2,7 @@ from flask_login import UserMixin
 
 class User(UserMixin):
     def __init__(self, user_row):
-        self.id = user_row[0]                      # user_id (required by Flask-Login)
+        self.id = user_row[0]                     
         self.full_name = user_row[1]
         self.email = user_row[2]
         self.phone_number = user_row[3]
