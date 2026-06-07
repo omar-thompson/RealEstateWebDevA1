@@ -504,30 +504,27 @@ def reject_application(application_id):
 @app.route('/application/<int:application_id>/accept')
 def accept_application(application_id):
 
-    if session.get('role') != 'sharer':
-        return "Unauthorized", 403
+    print("Accepting application:", application_id)
 
     cur = mysql.connection.cursor()
 
-    cur.execute("""
-        UPDATE applications
-        SET status = 'accepted'
-        WHERE application_id = %s
-    """, (application_id,))
+    try:
+        cur.execute("""
+            UPDATE applications
+            SET status = 'accepted'
+            WHERE application_id = %s
+        """, (application_id,))
 
-    cur.execute("""
-        UPDATE listings
-        SET availability_status = 'unavailable'
-        WHERE listing_id = (
-            SELECT listing_id FROM applications WHERE application_id = %s
-        )
-    """, (application_id,))
+        mysql.connection.commit()
 
-    mysql.connection.commit()
-    cur.close()
+    except Exception as e:
+        print("ERROR:", e)
+        mysql.connection.rollback()
+
+    finally:
+        cur.close()
 
     return redirect(url_for('my_applications'))
-
 
 ## The following 3 routes handle the propdetails, saving the property and unsaving the property. 
 @app.route('/property/<int:listing_id>', methods=['GET', 'POST'])
@@ -666,7 +663,7 @@ def register():
         cur.close()
 
         flash("Account created successfully")
-        return redirect(url_for('auth/login'))
+        return redirect(url_for('login'))
 
     return render_template('auth/register.html')
 
