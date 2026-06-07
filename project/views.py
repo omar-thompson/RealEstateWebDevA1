@@ -668,7 +668,7 @@ def register():
         flash("Account created successfully")
         return redirect(url_for('auth/login'))
 
-    return render_template('register.html')
+    return render_template('auth/register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
